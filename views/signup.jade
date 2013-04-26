@@ -1,0 +1,27 @@
+extends layout
+block content
+	form
+		fieldset
+			legend 用户注册
+			div.row-fluid
+				div.span8.offset2
+					div.control-group
+						label.control-label(for="input-username") 用户名
+						div.controls
+							input(type="text",id="input-username",name="username",maxlength="20")
+							p.help-inline 你的账户名称，用户登录和显示，6-20 字符
+					div.control-group
+						label.control-label(for="input-password") 用户密码
+						div.controls
+							input(type="password",id="input-password",name="password")
+							p.help-inline 6-20 字符
+					div.control-group
+						label.control-label(for="input-repassword") 确认用户密码
+						div.controls
+							input(type="password",id="input-repassword",name="repassword")
+					div.control-group.error
+						div.controls
+							p#reg-error.help-block 
+			div.form-actions
+				button.btn(type="button",id="sign-up-cancel") 取消
+				button.btn.btn-primary.m_l10(type="button",id="sign-up-reg",data-loading-text="注册中...") 注册

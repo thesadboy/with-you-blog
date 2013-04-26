@@ -1,0 +1,68 @@
+doctype 5
+html
+	head
+		title= title
+		link(rel='stylesheet', href='css/bootstrap.min.css')
+		link(rel='stylesheet', href='css/bootstrap-responsive.min.css')
+		link(rel='stylesheet', href='css/common.css')
+		script(src="js/jquery-2.0.0.min.js",type="text/javascript")
+		script(src="js/bootstrap.min.js",type="text/javascript")
+		script(src="js/common.js",type="text/javascript")
+	body
+		div#header
+			div.container
+				h1.head With You
+				h3.subhead Everytime with you
+		div#nav-bar
+			div.navbar-inner
+				div.container
+					ul.nav
+						li.left(class="#{nav =='home' || !nav ? 'active' : ''}")
+							a(href="/") Home
+						li.left(class="#{nav =='photos'? 'active' : ''}")
+							a(href="/photos") Photos
+						li.left(class="#{nav =='blogs'? 'active' : ''}")
+							a(href="/blogs") Blogs
+						li.left(class="#{nav =='about'? 'active' : ''}")
+							a(href="/about") About
+						li.right
+							a(href="#sign-in-modal",data-toggle="modal",role="button") Sign In
+		div#content
+			div.container
+				div.row
+					div.span9
+						div.custom-container
+							block content
+					div.span3
+						div.custom-container
+							include right
+		div#foot
+			div.container
+				include foot
+		//login modal
+		div#sign-in-modal.modal.hide.fade
+			div.modal-header
+				h3 登录
+			div.modal-body
+				div.row-fluid
+					div.span10.offset1
+						form
+							div.control-group
+								label.control-label(for="input-username") 用户名
+								div.controls
+									input.span12(type="text",id="input-username",placeholder="用户名")
+							div.control-group
+								label.control-label(for="input-password") 密码
+								div.controls
+									input.span12(type="password",id="input-password",placeholder="密码")
+							div.control-group
+								div.row-fluid
+									input.pull-left(type="checkbox",id="input-remember")
+									label.pull-left(for="input-remember") &nbsp;记住登录
+							div.control-group 
+								div 还没有账号&nbsp;
+									a(href="/signup") 注册
+							button.hide(id="sign-in-form-reset",type="reset") Reset
+			div.modal-footer
+				a#sign-in-close.btn 取消
+				a#sign-in.btn.btn-primary 登录
