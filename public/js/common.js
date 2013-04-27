@@ -29,6 +29,11 @@ $(document).ready(function(){
 				if(data.errorCode != 0)
 				{
 					$("#reg-error").html(data.errorMsg);
+				} else{
+					$("#reg-error").html(data.errorMsg)
+					setTimeout(function(){
+						window.location.href="/";
+					},3000);
 				}
 			}
 			$(_this).button("reset");

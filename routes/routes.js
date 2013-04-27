@@ -1,4 +1,5 @@
 var db = require("../db/db")
+	, crypto = require("crypto")
 	,User = require("../db/User");
 function route(app){
 	app.locals({
@@ -6,7 +7,7 @@ function route(app){
 	});
 	app.get("/",function(req,res,next){
 		res.render("index",{
-			title : "JUST YOU & ME",
+			title : "WITH YOU, JUST YOU & ME",
 			nav : "home"
 		});
 	});
@@ -35,10 +36,12 @@ function route(app){
 	});
 	app.post("/signup",function(req,res,next){
 		var userInfo = req.body['userInfo'];
+		//生成口令的散列值
+		var md5 = crypto.createHash('md5');
 		var user = new User(
 			{
 				userName : userInfo.username,
-				password : userInfo.password,
+				password : md5.update(userInfo.password).digest('base64'),
 				loginIp : req.connection.remoteAddress,
 				lastLoginIp : req.connection.remoteAddress,
 				createTime: userInfo.createTime
@@ -46,14 +49,12 @@ function route(app){
 		user.save(function(err,data){
 			if(err)
 			{
-				console.log(err);
 				res.send({
 					errorCode : err.code,
 					errorMsg : "注册失败"
 				});
 				return;
 			}
-			console.log(data);
 			res.send({
 				errorCode : 0,
 				errorMsg : "注册成功"

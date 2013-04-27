@@ -108,7 +108,7 @@ body{
 .photo .photo-container .photo-img{position:absolute;text-align: center; top: 5px; left: 5px; right: 5px; bottom: 30px;}
 .photo .photo-container .photo-img img{max-width: 100%; max-height: 100%;}
 .photo .photo-container .photo-title{position:absolute;height: 30px; line-height: 30px; text-align: center; left: 5px; right: 5px; bottom: 0;}
-.photo-mouse-over .photo-container{background: #fff; box-shadow: 3px 3px 5px #666;}
+.photo-mouse-over .photo-container{background: #efefef; box-shadow: 3px 3px 5px #666;}
 @media (min-width: 1200px)
 {
 	.photo{height: 200px !important;}
