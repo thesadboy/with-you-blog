@@ -11,6 +11,7 @@
     "mongodb":"*",
     "connect-mongo":"*",
     "optimist":"*",
-    "markdown-js":"*"
+    "markdown-js":"*",
+    "pagedown":"*"
   }
 }

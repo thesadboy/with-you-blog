@@ -1,0 +1,15 @@
+extends layout
+block content
+	div#pagedown
+		div#tabnav
+			ul#markdown-tab.nav.nav-tabs(style="padding:0 10px; margin-bottom:10px;")
+				li.active
+					a(href="#edit",data-toggle="tab")  Edit
+				li
+					a#preview(href="#markdownpreview",data-toggle="tab") Preview
+		div.tab-content
+			div.tab-pane.active(id="edit")
+				div.wmd-panel
+					div#wmd-button-bar
+					textarea#wmd-input.wmd-input(rows="10")
+			div#markdownpreview.tab-pane.markdown-body Loding preview content ...

@@ -61,5 +61,10 @@ function route(app){
 			});
 		});
 	});
+	app.get("/post/blog",function(req,res,next){
+		res.render("post_blog",{
+			title : "WRITE YOUR FEEL"
+		});
+	});
 };
 module.exports = route;
