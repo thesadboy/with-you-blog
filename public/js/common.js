@@ -39,16 +39,5 @@ $(document).ready(function(){
 			$(_this).button("reset");
 		});
 	});
-    var pagedown_editor = new Markdown.Editor();
-    pagedown_editor.run();
-    $("#preview").click(function () {
-		var converter = new Markdown.Converter();
-		var markdown_content = $("#wmd-input").val();
-		if (!markdown_content) {
-			$("div#markdownpreview").html("Empty Markdown Content.");
-		} else {
-			$("div#markdownpreview").html(converter.makeHtml(markdown_content));
-		}
-	});
 });
 
