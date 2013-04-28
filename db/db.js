@@ -10,4 +10,4 @@ try{
 {
 	throw new Error("could not read config " + argv.config + "internal error: " + e.toString());
 }
-module.exports = new  Db(options.database.db, new Server(options.database.host, Connection.DEFAULT_PORT, {}));
+module.exports = new  Db(options.database.db, new Server(options.database.host, options.database.port || Connection.DEFAULT_PORT, {}),{"auto_reconnect":options.database.server_option.auto_reconnect,"poolSize":options.database.server_option.poolSize,"safe":true});

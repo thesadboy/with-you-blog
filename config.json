@@ -3,7 +3,13 @@
 	"database":
 	{
 		"host" : "127.0.0.1",
+		"port":"27017",
 		"db" : "with-you-blog",
-		"cookieSecret" : "with-you-blog"
+		"cookieSecret" : "with-you-blog",
+		"server_option":
+		{
+			"auto_reconnect":true,
+			"poolSize":100
+		}
 	}
 }
