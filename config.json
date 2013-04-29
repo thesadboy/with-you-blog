@@ -9,7 +9,7 @@
 		"server_option":
 		{
 			"auto_reconnect":true,
-			"poolSize":100
+			"poolSize":20
 		}
 	}
 }

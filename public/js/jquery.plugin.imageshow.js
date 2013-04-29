@@ -23,6 +23,11 @@ $.fn.imageshow = function(options){
 				//将图片放入到相应的位置
 				var _image = '<img id="image-show" src="' + $(img).attr("src") + '"/>';
 				$("#imageshow-imagebox").append(_image);
+				$("#image-show").load(function(e){
+					var _margin_top = (-$(this).height()/2) + 'px';
+					var _margin_left = (-$(this).width()/2) + 'px';
+					$(this).css({"margin-top":_margin_top, "margin-left":_margin_left});
+				});
 				//将描述信息放到相应的位置
 				$("#imageshow-description-box").html($(_this).attr("data-desc") || "");
 				//添加关闭按钮

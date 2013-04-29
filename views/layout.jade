@@ -33,8 +33,14 @@ html
 							a(href="/blogs") Blogs
 						li.left(class="#{nav =='about'? 'active' : ''}")
 							a(href="/about") About
-						li.right
-							a(href="#sign-in-modal",data-toggle="modal",role="button") Sign In
+						-if(!user)
+							li.right
+								a(href="#sign-in-modal",data-toggle="modal",role="button") Sign In
+						-else
+							li.right
+								a(href="#sign-out-modal",data-toggle="modal",role="button") Sign Out
+							li.right
+								a(href="/userinfo/#{user._id}") #{user.userName}
 		div#content
 			div.container
 				div.row
@@ -70,7 +76,18 @@ html
 							div.control-group 
 								div 还没有账号&nbsp;
 									a(href="/signup") 注册
+							div.control-group.error
+								div.controls
+									p#sign-in-error.help-block 
 							button.hide(id="sign-in-form-reset",type="reset") Reset
 			div.modal-footer
 				a#sign-in-close.btn 取消
-				a#sign-in.btn.btn-primary 登录
+				a#sign-in.btn.btn-primary(data-loading-text="登录中...") 登录
+		//logout modal
+		div#sign-out-modal.modal.hide.fade
+			div.modal-header
+				h3 登出
+			div.modal-body 确定要登出么？
+			div.modal-footer
+				a#sign-out-close.btn 取消
+				a#sign-out.btn.btn-primary(data-loading-text="登出中...") 登出

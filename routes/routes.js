@@ -1,6 +1,4 @@
-var db = require("../db/db")
-	, crypto = require("crypto")
-	,User = require("../db/User");
+var userRoutes = require('./routes_user');
 function route(app){
 	app.locals({
 		nav:"home"
@@ -29,42 +27,11 @@ function route(app){
 			nav : "about"
 		});
 	});
-	app.get("/signup",function(req,res,next){
-		res.render("signup",{
-			title : "JOIN US",
-		});
-	});
-	app.post("/signup",function(req,res,next){
-		var userInfo = req.body['userInfo'];
-		//生成口令的散列值
-		var md5 = crypto.createHash('md5');
-		var user = new User(
-			{
-				userName : userInfo.username,
-				password : md5.update(userInfo.password).digest('base64'),
-				loginIp : req.connection.remoteAddress,
-				lastLoginIp : req.connection.remoteAddress,
-				createTime: userInfo.createTime
-			});
-		user.save(function(err,data){
-			if(err)
-			{
-				res.send({
-					errorCode : err.code,
-					errorMsg : "注册失败"
-				});
-				return;
-			}
-			res.send({
-				errorCode : 0,
-				errorMsg : "注册成功"
-			});
-		});
-	});
 	app.get("/post/blog",function(req,res,next){
 		res.render("post_blog",{
 			title : "WRITE YOUR FEEL"
 		});
 	});
+	userRoutes(app);
 };
 module.exports = route;
