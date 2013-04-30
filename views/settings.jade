@@ -1,0 +1,20 @@
+extends layout
+block content
+	legend SYSTEM SETTINGS
+	div.tabbable.tabs-left
+		ul.nav.nav-tabs
+			li.active
+				a(id="btn-setting-tags",href="#settings-tags",data-toggle="tab") 标签管理
+			li
+				a(id="btn-setting-users",href="#settings-users",data-toggle="tab") 用户管理
+			li
+				a(id="btn-setting-system",href="#settings-system",data-toggle="tab") 系统管理
+		div.tab-content
+			div.tab-pane.active#settings-tags
+			div.tab-pane#settings-users
+			div.tab-pane#settings-system
+	script
+		$("#settings-tags").load("/settings/tags");
+		$("#btn-setting-tags").click(function(e){
+			$("#settings-tags").load("/settings/tags");
+		});

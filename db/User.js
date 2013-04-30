@@ -33,13 +33,13 @@ User.prototype.save = function(callback)
 	_db.open(function(err, db){
 		if(err)
 		{
-			return callback(err,null);
+			return callback(err);
 		}
 		db.collection('users',function(err, collection){
 			if(err)
 			{
 				_db.close()
-				return callback(err, null);
+				return callback(err);
 			}
 			//为userName属性添加索引
 			collection.ensureIndex('userName', {unique : true});

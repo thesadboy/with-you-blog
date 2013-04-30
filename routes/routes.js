@@ -1,4 +1,6 @@
-var userRoutes = require('./routes_user');
+var userRoute = require('./routes_user')
+	,settingRoute = require("./routes_setting")
+	,Tag = require("../db/Tag");
 function route(app){
 	app.locals({
 		nav:"home"
@@ -27,11 +29,21 @@ function route(app){
 			nav : "about"
 		});
 	});
-	app.get("/post/blog",function(req,res,next){
-		res.render("post_blog",{
-			title : "WRITE YOUR FEEL"
+	app.get("/post/editor/:operation",function(req,res,next){
+		Tag.query({status:1},function(err, data){
+			var tags = [];
+			if(!err)
+			{
+				tags = data;
+			}
+			res.render("post_editor",{
+				title : "WRITE YOUR FEEL",
+				operation : req.params.operation,
+				tags : tags
+			});
 		});
 	});
-	userRoutes(app);
+	userRoute(app);
+	settingRoute(app);
 };
 module.exports = route;

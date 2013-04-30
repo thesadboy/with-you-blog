@@ -1,0 +1,160 @@
+doctype 5
+html
+	head
+		title= title
+	body
+		table.table.table-striped.table-bordered.table-condensed
+			thead
+				tr
+					th.auto_width 标签名
+					th 标签描述
+					th.auto_width 标签状态
+					th.auto_width 操作
+			tbody
+				-if(tags.length > 0)
+					-each tag in tags
+						tr
+							td.auto_width #{tag.tagName}
+							td #{tag.tagDescription}
+							td.auto_width #{tag.status == 1 ? "已启用" : "已禁用"}
+							td.auto_width.tag_operation
+								-if(tag.status == 1)
+									a.btn.btn-inverse.btn-mini.m_r5(href="javascript:",tagId=tag._id,operation="invalid") 禁用
+									a.btn.btn-info.btn-mini.m_r5(href="javascript:",tagId=tag._id,tagName=tag.tagName,tagDescription=tag.tagDescription,operation="edit") 编辑
+								-else
+									a.btn.btn-success.btn-mini.m_r5(href="javascript:",tagId=tag._id,operation="valid") 启用
+								a.btn.btn-danger.btn-mini(href="javascript:",tagId=tag._id,operation="delete") 删除
+				-else
+					tr(align="center")
+						td(colspan="4") 无数据
+	form
+		legend 新增标签
+		div.control-group
+			label.control-label(for="tag-input-tagName") 标签名
+			div.controls
+				input(type="text", id="tag-input-tagName")
+		div.control-group
+			label.control-label(for="tag-input-tagDescription") 描述
+			div.controls
+				textarea(id="tag-input-tagDescription")
+		div.control-group
+			div.controls
+				button#btn-tag-cancel.btn.m_r5(type="reset",href="javascript:") 取消
+				a#btn-tag-add.btn.btn-primary(href="javascript:") 确认
+	script
+		var selectedTagId = null;
+		$("#btn-tag-add").click(function(e){
+			//验证tagName是否为空
+			if($("#tag-input-tagName").val().length < 1)
+			{
+				$("#tag-input-tagName").parent().parent("div.control-group").addClass("error");
+				return;
+			}
+			else
+			{
+				$("#tag-input-tagName").parent().parent("div.control-group").removeClass("error");
+			}
+			var tagInfo = {
+				_id : selectedTagId,
+				tagName : $("#tag-input-tagName").val(),
+				tagDescription : $("#tag-input-tagDescription").val()
+			}
+			if(selectedTagId)
+			{
+				//编辑
+				$.post("/settings/tags/update",{tagInfo:tagInfo},function(data,status){
+					if(status == "success")
+					{
+						if(data.errorCode == 0)
+						{
+							//成功
+							$("#settings-tags").load("/settings/tags");
+						}
+					}
+				});
+			}
+			else
+			{
+				//新增
+				$.post("/settings/tags/new",{tagInfo:tagInfo},function(data,status){
+					if(status == "success")
+					{
+						if(data.errorCode == 0)
+						{
+							//成功
+							$("#settings-tags").load("/settings/tags");
+							selectedTagId = null;
+						}
+					}
+				});
+			}
+		});
+		//取消操作
+		$("#btn-tag-cancel").click(function(e){
+			selectedTagId = null;
+		});
+		//按钮操作
+		$("td.tag_operation a.btn").click(function(e){
+			var tagId = $(this).attr("tagId");
+			tagInfo = {
+				_id : tagId,
+			}
+			switch($(this).attr("operation"))
+			{
+				case "invalid":
+				{
+					tagInfo.status = 0;
+					//禁用
+					$.post("/settings/tags/update",{tagInfo:tagInfo},function(data,status){
+						if(status == "success")
+						{
+							if(data.errorCode == 0)
+							{
+								//成功
+								$("#settings-tags").load("/settings/tags");
+							}
+						}
+					});
+					break;
+				}
+				case "valid":
+				{
+					//启用
+					tagInfo.status = 1;
+					$.post("/settings/tags/update",{tagInfo:tagInfo},function(data,status){
+						if(status == "success")
+						{
+							if(data.errorCode == 0)
+							{
+								//成功
+								$("#settings-tags").load("/settings/tags");
+							}
+						}
+					});
+					break;
+				}
+				case "edit":
+				{
+					//编辑
+					$("#tag-input-tagName").val($(this).attr("tagName"));
+					$("#tag-input-tagDescription").val($(this).attr("tagDescription"));
+					selectedTagId = $(this).attr("tagId");
+					break;
+				}
+				case "delete":
+				{
+					//删除
+					$.post("/settings/tags/delete",{tagInfo : tagInfo},function(data, status){
+						if(status == "success")
+						{
+							if(data.errorCode == 0)
+							{
+								//成功
+								$("#settings-tags").load("/settings/tags");
+							}
+						}
+					});
+					break;
+				}
+			}
+		});

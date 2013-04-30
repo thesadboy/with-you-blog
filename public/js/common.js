@@ -39,6 +39,10 @@ $(document).ready(function(){
 	}).mouseout(function(event) {
 		$(this).removeClass("photo-mouse-over");
 	});
+	//为所有的tags添加随机样式
+	$(".tags a").addClass(getRandomLabelStyle);
+	//为所有的回复数目添加随机样式
+	$("span.reply a").addClass(getrandomBadgeStyle);
 	//用户注册时的一些功能
 	$("#sign-up-cancel").click(function (e) {
 		history.back();
@@ -82,5 +86,64 @@ $(document).ready(function(){
 			}
 		});
 	});
+	//将标签信息放到右边的列表中
+	$.get("/tags",function(data,status){
+		if(status == "success")
+		{
+			if(data.errorCode == 0)
+			{
+				var tags = data.tags;
+				var items = '';
+				for(var i = 0; i < tags.length ; i ++)
+				{
+					items += '<li><a class="'+getrandomBadgeStyle()+'" href="/tag/:'+tags[i]._id+'">'+tags[i].tagName+'</a></li>';
+				}
+				$("ul#right-tags").html(items);
+			}
+		}
+	});
 });
-
+//获取随机的label样式
+function getRandomLabelStyle()
+{
+	var ranNum = parseInt(Math.random()*(6-1+1)+1);
+	switch(ranNum)
+	{
+		case 1 :
+			return "label";
+		case 2:
+			return "label label-success";
+		case 3:
+			return "label label-warning";
+		case 4:
+			return "label label-important";
+		case 5:
+			return "label label-info";
+		case 6:
+			return "label label-inverse";
+		default :
+			return "label";
+	}
+}
+//获取随机的badge样式
+function getrandomBadgeStyle()
+{
+	var ranNum = parseInt(Math.random()*(6-1+1)+1);
+	switch(ranNum)
+	{
+		case 1 :
+			return "badge";
+		case 2:
+			return "badge badge-success";
+		case 3:
+			return "badge badge-warning";
+		case 4:
+			return "badge badge-important";
+		case 5:
+			return "badge badge-info";
+		case 6:
+			return "badge badge-inverse";
+		default :
+			return "badge";
+	}
+}

@@ -1,2 +1,8 @@
 extends layout
 block content
+	button#btn-new-blog.btn 发表新博客
+	div#new-blog
+	script
+		$("#btn-new-blog").click(function(e){
+			$("#new-blog").load("/post/editor/new-blog");
+		});
