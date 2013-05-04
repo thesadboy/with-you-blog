@@ -21,21 +21,21 @@ html
 				div.container
 					ul.nav
 						li.left(class="#{nav =='home' || !nav ? 'active' : ''}")
-							a(href="/") Home
+							a(href="/") 首页
 						li.left(class="#{nav =='photos'? 'active' : ''}")
-							a(href="/photos") Photos
+							a(href="/photos") 图库
 						li.left(class="#{nav =='blogs'? 'active' : ''}")
-							a(href="/blogs") Blogs
+							a(href="/blogs") 博文
 						li.left(class="#{nav =='about'? 'active' : ''}")
-							a(href="/about") About
+							a(href="/about") 关于
 						-if(!user)
 							li.right
-								a(href="#sign-in-modal",data-toggle="modal",role="button") Sign In
+								a(href="#sign-in-modal",data-toggle="modal",role="button") 登录
 						-else
 							li.right
-								a(href="#sign-out-modal",data-toggle="modal",role="button") Sign Out
+								a(href="#sign-out-modal",data-toggle="modal",role="button") 退出
 							li.right
-								a(href="/userinfo/#{user._id}") #{user.userName}
+								a(href="/userinfo") #{user.userName}
 		div#content
 			div.container
 				div.row
@@ -81,8 +81,8 @@ html
 		//logout modal
 		div#sign-out-modal.modal.hide.fade
 			div.modal-header
-				h3 登出
-			div.modal-body 确定要登出么？
+				h3 退出
+			div.modal-body 确定要退出么？
 			div.modal-footer
 				a#sign-out-close.btn 取消
-				a#sign-out.btn.btn-primary(data-loading-text="登出中...") 登出
+				a#sign-out.btn.btn-primary(data-loading-text="登出中...") 退出

@@ -33,6 +33,7 @@ $(document).ready(function(){
 				else
 				{
 					//登录成功
+					$("#sign-in-error").parent().parent().removeClass("error").addClass("success");
 					$("#sign-in-error").html(data.errorMsg);
 					setTimeout(function(){
 						window.location.href=window.location.href;
