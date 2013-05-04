@@ -99,7 +99,7 @@ body{
 .entry-header h3.title a{text-decoration: none;}
 .entry-meta{margin-bottom: 10px;}
 .entry-meta .tags a{margin-left: 5px;}
-.entry-header .entry-meta .date{margin-left: 5px; color: #08C;}
+.entry-header .entry-meta .date{margin-left: 5px; color: #08C !important;}
 .entry-content{margin-bottom: 10px; padding: 10px 0; line-height: 25px; }
 /*photos*/
 .photos{position: relative;width: 100%;display: inline-block;}
@@ -110,8 +110,6 @@ body{
 .photo .photo-container .photo-img img{max-width: 100%; max-height: 100%;}
 .photo .photo-container .photo-title{position:absolute;height: 30px; line-height: 30px; text-align: center; left: 5px; right: 5px; bottom: 0;}
 .photo-mouse-over .photo-container{background: #efefef; box-shadow: 3px 3px 5px #666;}
-#tagslist ul.tags{list-style: none; margin: 0;}
-#tagslist ul.tags li{list-style: none; display: inline-block; margin-right: 10px;}
 @media (min-width: 1200px)
 {
 	.photo{height: 200px !important;}

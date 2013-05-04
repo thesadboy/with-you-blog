@@ -21,18 +21,18 @@ Tag.prototype.save = function(callback)
 	_db.open(function(err,db){
 		if(err)
 		{
-			callback(err);
+			return callback(err);
 		}
 		db.collection("tags",function(err,collection){
 			if(err)
 			{
 				_db.close();
-				callback(err);
+				return callback(err);
 			}
 			collection.ensureIndex('tagName',{unique:true});
 			collection.insert(tag,{safe:true},function(err,tag){
 				_db.close();
-				callback(err,tag);
+				return callback(err,tag);
 			});
 		});
 	});
@@ -54,11 +54,11 @@ Tag.get = function(tagId, callback){
 				if(doc)
 				{
 					var tag = new Tag(doc);
-					callback(err, tag);
+					return callback(err, tag);
 				}
 				else
 				{
-					callback(err);
+					return callback(err);
 				}
 			});
 		});
@@ -69,24 +69,24 @@ Tag.update = function(tag, callback)
 	_db.open(function(err, db){
 		if(err)
 		{
-			callback(err);
+			return callback(err);
 		}
 		db.collection('tags',function(err, collection){
 			if(err)
 			{
 				_db.close();
-				callback(err);
+				return callback(err);
 			}
 			collection.save(tag, function(err, doc){
 				_db.close();
 				if(doc)
 				{
 					var tag = new Tag(doc);
-					callback(err, tag);
+					return callback(err, tag);
 				}
 				else
 				{
-					callback(err);
+					return callback(err);
 				}
 			});
 		});
@@ -96,19 +96,19 @@ Tag.query = function(conditions, callback){
 	_db.open(function(err,db){
 		if(err)
 		{
-			callback(err);
+			return callback(err);
 		}
 		db.collection('tags',function(err, collection){
 			if(err)
 			{
 				_db.close();
-				callback(err);
+				return callback(err);
 			}
-			collection.find(conditions).sort({time:-1}).toArray(function(err, docs){
+			collection.find(conditions).sort({tagName:-1}).toArray(function(err, docs){
 				_db.close();
 				if(err)
 				{
-					callback(err);
+					return callback(err);
 				}
 				else
 				{
@@ -117,7 +117,7 @@ Tag.query = function(conditions, callback){
 						var tag = new Tag(doc);
 						tags.push(tag);
 					});
-					callback(err,tags);
+					return callback(err,tags);
 				}
 			});
 		});
@@ -128,17 +128,17 @@ Tag.delete = function(tagId, callback)
 	_db.open(function(err, db){
 		if(err)
 		{
-			callback(err);
+			return callback(err);
 		}
 		db.collection('tags',function(err, collection){
 			if(err)
 			{
 				_db.close();
-				callback(err);
+				return callback(err);
 			}
-			collection.remove({_id:new BSON.ObjectID(tagId)},function(err){
+			collection.remove({_id:new BSON.ObjectID(tagId)},{safe:true},function(err){
 				_db.close();
-				callback(err);
+				return callback(err);
 			});
 		});
 	});

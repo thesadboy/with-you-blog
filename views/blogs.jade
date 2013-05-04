@@ -1,8 +1,77 @@
 extends layout
 block content
-	button#btn-new-blog.btn 发表新博客
-	div#new-blog
-	script
-		$("#btn-new-blog").click(function(e){
-			$("#new-blog").load("/post/editor/new-blog");
-		});
+	div.articles
+		-each post in posts
+			article
+				header.entry-header
+					h3.title
+						a(href="/post/:"+post._id) #{post.postTitle}
+					div.entry-meta
+						span 由
+						a.date(href="/user/:"+post.author._id) #{post.author.userName}
+						span  发表于 
+						span.date #{dateTimeFormat(post.createTime)}
+						span  | 最后编辑 
+						span.date #{dateTimeFormat(post.updateTime)}
+				div.entry-content
+					div #{post.description}
+				footer.entry-meta
+					span.tags 标签：
+						if(post.tags)
+							-each tag in post.tags
+								a(href="/tag/:"+tag._id, class=getRandomLabelStyle()) #{tag.tagName}
+					span.reply  | 回复：
+						a(href="#",class=getrandomBadgeStyle()) #{post.reply}
+					span  | 浏览：
+						span #{post.hits}
+	//分页
+	div#blog-pagination.pagination
+		ul
+			li(class=page == 1 ? "disabled" : "",page=page - 1 > 0 ? page - 1 : 1)
+				a(href="javascript:") &laquo;
+			-var before = 2;
+			-var after = 2;
+			-while(page - before < 1)
+				-before --
+				-after ++
+			-while(new Number(page) + new Number(after) > pages)
+				-after --
+				-before ++
+			-if(page - before < 1)
+				-before = page - 1
+			-for(var i = page - before ; i <= new Number(page)+new Number(after); i ++)
+				li(class=page == i ? "active" : "",page=i)
+					a(href="javascript:") #{i}
+			li(class=page == pages ? "disabled" : "",page=page + 1 < pages ? page + 1 : pages)
+				a(href="javascript:") &raquo;
+	-if(user)
+		div.form-actions
+			button#btn-new-blog.btn 发表新博客
+		div#new-blog.hide
+			form
+				div#new-blog-attr.row-fluid
+					div.control-group
+						label.control-label(for="post-title") 标题
+						div.controls
+							input.span12(type="text",id="post-title")
+					div.control-group
+						label.control-label(for="post-description") 简介（简短说明）
+						div.controls
+							textarea.span12(id="post-description")
+					div.control-group
+						label.control-label 博文内容
+						div#new-blog-editor.controls
+					div.control-group.error
+						div.controls
+							p#new-blog-error.help-block 
+					div.form-actions
+						a#blog-btn-post.btn(href="javascript:",data-loading-text="发表中...") 发表
+
+		script
+			$("#btn-new-blog").click(function(e){
+				var new_blog_legend = '<legend>新增文章</legend>';
+				$(this).parent().after(new_blog_legend);
+				$(this).parent().remove();
+				$("#new-blog").show();
+				$("#new-blog-editor").load("/post/editor/new-blog");
+			});

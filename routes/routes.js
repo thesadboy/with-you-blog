@@ -1,15 +1,26 @@
 var userRoute = require('./routes_user')
 	,settingRoute = require("./routes_setting")
+	,postRoute = require("./routes_post")
+	,Post = require("../db/post")
 	,Tag = require("../db/Tag");
 function route(app){
 	app.locals({
 		nav:"home",
 	});
 	app.get("/",function(req,res,next){
-		res.render("index",{
-			title : "WITH YOU, JUST YOU & ME",
-			nav : "home"
-		});
+		Post.query({},0,10,{createTime:-1},function(err, data, count)
+			{
+				var posts = [];
+				if(!err)
+				{
+					posts = data;
+				}
+				res.render("index",{
+					title : "WITH YOU, JUST YOU & ME",
+					nav : "home",
+					posts : posts
+				});
+			});
 	});
 	app.get("/photos",function(req,res,next){
 		res.render("photos",{
@@ -18,9 +29,25 @@ function route(app){
 		});
 	});
 	app.get("/blogs",function(req,res,next){
-		res.render("blogs",{
-			title: "SWEET DESCRIPTION",
-			nav : "blogs"
+		var page = req.query.page || 1;
+		var pageSize = 20;
+		var pages = 0;
+		var posts = [];
+		Post.query({},(page -1) * pageSize, pageSize, {updateTime:-1}, function(err, data, count){
+			if(!err)
+			{
+				posts = data;
+				var extCount = count % pageSize;
+				pages = (count - extCount) / pageSize;
+				pages = extCount  == 0 ? pages : pages + 1;
+			}
+			res.render("blogs",{
+				title: "SWEET DESCRIPTION",
+				nav : "blogs",
+				pages : pages,
+				page : page,
+				posts : posts
+			});
 		});
 	});
 	app.get("/about",function(req,res,next){
@@ -40,5 +67,6 @@ function route(app){
 	});
 	userRoute(app);
 	settingRoute(app);
+	postRoute(app);
 };
 module.exports = route;

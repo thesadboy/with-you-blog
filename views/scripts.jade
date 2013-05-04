@@ -1,0 +1,44 @@
+-function dateTimeFormat(dateTime)
+	-var year = dateTime.getFullYear()
+	-var month = dateTime.getMonth() + 1
+	-month = month < 10  ? "0" + month : month
+	-var date = dateTime.getDate()
+	-date = date < 10 ? "0" + date : date
+	-var hours = dateTime.getHours()
+	-hours = hours  < 10 ? "0" + hours : hours
+	-var mins = dateTime.getMinutes()
+	-mins = mins < 10 ? "0" + mins : mins
+	-var secs = dateTime.getSeconds()
+	-secs = secs < 10 ? "0" + secs : secs
+	-var dateTime = year + "-" + month + "-" + date + " " + hours + ":" + mins +":" + secs
+	-return dateTime
+-function getRandomLabelStyle()
+	-var ranNum = parseInt(Math.random()*(6-1+1)+1)
+	-if(ranNum == 1)
+		-return "label"
+	-if(ranNum == 2)
+		-return "label label-success"
+	-if(ranNum == 3)
+		-return "label label-warning"
+	-if(ranNum == 4)
+		-return "label label-important"
+	-if(ranNum == 5)
+		-return "label label-info"
+	-if(ranNum == 6)
+		-return "label label-inverse"
+	-return "label"
+-function getrandomBadgeStyle()
+	-var ranNum = parseInt(Math.random()*(6-1+1)+1)
+	-if(ranNum == 1)
+		-return "badge"
+	-if(ranNum == 2)
+		-return "badge badge-success"
+	-if(ranNum == 3)
+		-return "badge badge-warning"
+	-if(ranNum == 4)
+		-return "badge badge-important"
+	-if(ranNum == 5)
+		-return "badge badge-info"
+	-if(ranNum == 6)
+		-return "badge badge-inverse"
+	-return "badge"

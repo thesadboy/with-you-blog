@@ -9,24 +9,24 @@ html
 		script(src="/js/Markdown.Sanitizer.js",type="text/javascript")
 		script(src="/js/Markdown.Editor.js",type="text/javascript")
 	body
-	div#pagedown
+	div#pagedown(style="background:#fefefe;")
 		div#tabnav
-			ul#markdown-tab.nav.nav-tabs(style="padding:0 10px; margin-bottom:10px;")
+			ul#markdown-tab.nav.nav-pills(style="margin-bottom:10px;")
 				li.active
-					a(href="#edit",data-toggle="tab")  Edit
+					a(href="#edit",data-toggle="tab")  编辑
 				li
-					a#preview(href="#markdownpreview",data-toggle="tab") Preview
+					a#preview(href="#markdownpreview",data-toggle="tab") 预览
 				-if(operation == "new-blog")
 					li
-						a#tags(href="#tagslist", data-toggle="tab") Tags
+						a#tags(href="#editor-tagslist", data-toggle="tab") 标签
 		div.tab-content
 			div.tab-pane.active(id="edit")
 				div.wmd-panel
 					div#wmd-button-bar
 					textarea#wmd-input.wmd-input(rows="10")
-			div#markdownpreview.tab-pane.markdown-body Loding preview content ...
+			div#markdownpreview.tab-pane.markdown-body 载入预览内容…
 			-if(operation == "new-blog")
-				div#tagslist.tab-pane
+				div#editor-tagslist.tab-pane.markdown-body
 					ul.tags
 						-each tag in tags
 							li
@@ -37,12 +37,8 @@ html
 		$("#preview").click(function () {
 			var converter = new Markdown.Converter();
 			var markdown_content = $("#wmd-input").val();
-			if (!markdown_content) {
-				$("div#markdownpreview").html("Empty Markdown Content.");
-			} else {
-				$("div#markdownpreview").html(converter.makeHtml(markdown_content));
-			}
+			$("div#markdownpreview").html(converter.makeHtml(markdown_content));
 		});
-		$("#tagslist a.label").click(function(e){
+		$("#editor-tagslist a.label").click(function(e){
 			$(this).toggleClass("label-info");
 		});

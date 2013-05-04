@@ -1,3 +1,4 @@
+var g_tags = [];
 $(document).ready(function(){
 	//输入框事件监听
 	$("#input-password").keypress(function(event) {
@@ -46,10 +47,6 @@ $(document).ready(function(){
 	}).mouseout(function(event) {
 		$(this).removeClass("photo-mouse-over");
 	});
-	//为所有的tags添加随机样式
-	$(".tags a").addClass(getRandomLabelStyle);
-	//为所有的回复数目添加随机样式
-	$("span.reply a").addClass(getrandomBadgeStyle);
 	//用户注册时的一些功能
 	$("#sign-up-cancel").click(function (e) {
 		history.back();
@@ -141,15 +138,92 @@ $(document).ready(function(){
 		{
 			if(data.errorCode == 0)
 			{
-				var tags = data.tags;
+				g_tags = data.tags;
 				var items = '';
-				for(var i = 0; i < tags.length ; i ++)
+				for(var i = 0; i < g_tags.length ; i ++)
 				{
-					items += '<li><a class="'+getrandomBadgeStyle()+'" href="/tag/:'+tags[i]._id+'">'+tags[i].tagName+'</a></li>';
+					items += '<li><a class="'+getrandomBadgeStyle()+'" href="/tag/:'+g_tags[i]._id+'">'+g_tags[i].tagName+'</a></li>';
 				}
 				$("ul#right-tags").html(items);
 			}
 		}
+	});
+	//发表博客
+	$("#blog-btn-post").click(function (e) {
+		var _this = this;
+		$(_this).button("loading");
+		//验证
+		$("#post-title").parent().parent().removeClass("error");
+		$("#post-description").parent().parent().removeClass("error");
+		if($("#post-title").val().replace(/[ ]/g,"").length < 5)
+		{
+			$("#new-blog-error").html("文章标题不能小于五个字符");
+		$("#post-title").parent().parent().addClass("error");
+			$(_this).button("reset");
+			setTimeout(function(){
+				$("#new-blog-error").html("");
+			}, 1500);
+			return;
+		}
+		if($("#post-description").val().replace(/[ ]/g,"").length < 5)
+		{
+			$("#new-blog-error").html("文章描述不能小于五个字符");
+		$("#post-description").parent().parent().addClass("error");
+			$(_this).button("reset");
+			setTimeout(function(){
+				$("#new-blog-error").html("");
+			}, 1500);
+			return;
+		}
+		var tags = [];
+		var selectedTagsEle = $("#editor-tagslist a.label-info");
+		for(var i = 0; i < selectedTagsEle.length ; i ++)
+		{
+			for(var j = 0; j < g_tags.length ; j ++)
+			{
+				if($(selectedTagsEle[i]).attr("tagId") == g_tags[j]._id)
+				{
+					tags.push(g_tags[j]);
+				}
+			}
+		}
+		var postInfo = {
+			type : "blog",
+			postTitle : $("#post-title").val(),
+			description : $("#post-description").val(),
+			content : $("#wmd-input").val(),
+			tags : tags
+		}
+		$.post("/post",{postInfo : postInfo},function(data,status){
+			if(status == "success")
+			{
+				if(data.errorCode == 0)
+				{
+					$("#new-blog-error").parent().parent().removeClass("error").addClass("success");
+					$("#new-blog-error").html(data.errorMsg);
+					setTimeout(function(){
+						window.location.href = "/blogs";
+					}, 1000);
+				}
+				else
+				{
+					$("#new-blog-error").html(data.errorMsg);
+					setTimeout(function(){
+						$("#new-blog-error").html("");
+					}, 1500);
+					$(_this).button("reset");
+				}
+			}
+		});
+	});
+	//分页
+	//Blog
+	$("#blog-pagination li").click(function(event) {
+		if($(this).hasClass("active") || $(this).hasClass("disabled"))
+		{
+			return;
+		}
+		window.location.href = "/blogs/?page=" + $(this).attr("page");
 	});
 });
 //获取随机的label样式

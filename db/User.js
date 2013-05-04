@@ -90,7 +90,7 @@ User.update = function(user, callback){
 				_db.close();
 				return callback(err);
 			}
-			collection.save(user, function(err, doc){
+			collection.save(user, {safe:true}, function(err, doc){
 				_db.close();
 				if(doc)
 				{
