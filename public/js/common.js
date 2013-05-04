@@ -1,4 +1,11 @@
 $(document).ready(function(){
+	//输入框事件监听
+	$("#input-password").keypress(function(event) {
+		if(event.keyCode == 13)
+		{
+			$("#sign-in").trigger("click");
+		}
+	});
 	//点击取消登录时的操作
 	$("#sign-in-close").click(function (e) {
 		$("#sign-in-form-reset").trigger("click");
@@ -28,7 +35,7 @@ $(document).ready(function(){
 					$("#sign-in-error").html(data.errorMsg);
 					setTimeout(function(){
 						window.location.href=window.location.href;
-					},3000);
+					},1500);
 				}
 			}
 		});
@@ -47,9 +54,43 @@ $(document).ready(function(){
 	$("#sign-up-cancel").click(function (e) {
 		history.back();
 	});
+	//输入框事件监听
+	$("#reg-input-repassword").keypress(function(event) {
+		if(event.keyCode == 13)
+		{
+			$("#sign-up-reg").trigger("click");
+		}
+	});
 	$("#sign-up-reg").click(function (e) {
 		_this = this;
 		//注册
+		//验证
+
+		$("#reg-input-username").parent().parent().removeClass("error");
+		$("#reg-input-password").parent().parent().removeClass("error");
+		$("#reg-input-repassword").parent().parent().removeClass("error");
+		if(!$("#reg-input-username").val().match(/^\w{6,20}$/))
+		{
+			//用户名不可用
+			$("#reg-input-username").parent().parent().addClass("error");
+			$("#reg-error").html("用户名不可用");
+			return;
+		}
+		if(!$("#reg-input-password").val().match(/^\w{6,20}$/))
+		{
+			//用户密码不可用
+			$("#reg-input-password").parent().parent().addClass("error");
+			$("#reg-error").html("用户密码不可用");
+			return;
+		}
+		if($("#reg-input-password").val() != $("#reg-input-repassword").val())
+		{
+			//两次密码不一致
+			$("#reg-input-password").parent().parent().addClass("error");
+			$("#reg-input-repassword").parent().parent().addClass("error");
+			$("#reg-error").html("两次密码不一致");
+			return;
+		}
 		var userInfo = {
 			username : $("#reg-input-username").val(),
 			password : $("#reg-input-password").val(),
@@ -61,15 +102,23 @@ $(document).ready(function(){
 			{
 				if(data.errorCode != 0)
 				{
-					$("#reg-error").html(data.errorMsg);
+					if(data.errorCode == 11000)
+					{
+						$("#reg-error").html("用户名已经被注册，请换一个用户名再试");
+					}
+					else
+					{
+						$("#reg-error").html(data.errorMsg);
+					}
+					$(_this).button("reset");
 				} else{
+					$("#reg-error").parent().parent().removeClass("error").addClass("success");
 					$("#reg-error").html(data.errorMsg);
 					setTimeout(function(){
 						window.location.href="/";
-					},3000);
+					},1500);
 				}
 			}
-			$(_this).button("reset");
 		});
 	});
 	//登出的取消

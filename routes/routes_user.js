@@ -82,7 +82,7 @@ module.exports = function(app)
 					data.loginIp = user.loginIp;
 					data.lastLoginTime = data.loginTime;
 					data.loginTime = user.loginTime;
-					User.update(data, function(err, data){
+					User.update(data, function(err){
 						if(err)
 						{
 							res.send({
@@ -92,10 +92,23 @@ module.exports = function(app)
 						}
 						else
 						{
-							req.session.user = data;
-							res.send({
-								errorCode : 0,
-								errorMsg : "登录成功"
+							User.get(user.userName, function(err, data){
+								if(err)
+								{
+									//登录失败
+									res.send({
+										errorCode : -1,
+										errorMsg : "登录失败，服务器错误"
+									});
+								}
+								else
+								{
+									req.session.user = data;
+									res.send({
+										errorCode : 0,
+										errorMsg : "登录成功"
+									});
+								}
 							});
 						}
 					});

@@ -1,5 +1,8 @@
 extends layout
 block content
+	-if(user)
+		script
+			history.back();
 	form
 		fieldset
 			legend 用户注册

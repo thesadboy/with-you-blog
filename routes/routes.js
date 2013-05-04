@@ -3,7 +3,7 @@ var userRoute = require('./routes_user')
 	,Tag = require("../db/Tag");
 function route(app){
 	app.locals({
-		nav:"home"
+		nav:"home",
 	});
 	app.get("/",function(req,res,next){
 		res.render("index",{
@@ -31,15 +31,10 @@ function route(app){
 	});
 	app.get("/post/editor/:operation",function(req,res,next){
 		Tag.query({status:1},function(err, data){
-			var tags = [];
-			if(!err)
-			{
-				tags = data;
-			}
 			res.render("post_editor",{
 				title : "WRITE YOUR FEEL",
 				operation : req.params.operation,
-				tags : tags
+				tags : data
 			});
 		});
 	});
