@@ -98,9 +98,24 @@ body{
 .entry-header h3.title{margin-bottom: 10px;}
 .entry-header h3.title a{text-decoration: none;}
 .entry-meta{margin-bottom: 10px;}
+.entry-meta .edit{margin-left: 10px;}
 .entry-meta .tags a{margin-left: 5px;}
 .entry-header .entry-meta .date{margin-left: 5px; color: #08C !important;}
 .entry-content{margin-bottom: 10px; padding: 10px 0; line-height: 25px; }
+.entry-description{margin-bottom: 10px; padding: 10px 10px; line-height: 30px; font-size: 18px; background: #ededed; border-radius: 5px;}
+.entry-comment{padding-top: 15px;background: url("../img/comment-title.gif") repeat-x;}
+.entry-comment-total{padding-left: 10px;}
+.comment{display: inline-block; width: 100%; position: relative; margin-top: 15px; border-bottom: 1px dashed #BBB; padding-bottom: 10px;}
+.comment table{width:100%; border-collapse:separate;}
+.comment-left{width: 120px; height: 68px; background: url( "../img/comment.gif") right top no-repeat #fff;}
+.comment-left img{margin-left: 10px; border: 4px solid #ededed;}
+.comment-right{border-bottom: 5px solid #ededed;border-right: 5px solid #ededed;border-top: 5px solid #ededed;padding: 10px 20px;line-height: 180%;}
+.comment-right-top{padding-bottom: 5px; float: left; width: 100%;}
+.comment-right-top *{float:left;}
+.comment-right-top a{text-decoration: none;}
+.comment-right-content{}
+.comment-right-reply{float:right;visibility: hidden; }
+.comment:hover .comment-right-reply{visibility: visible;}
 /*photos*/
 .photos{position: relative;width: 100%;display: inline-block;}
 .photo{width: 20%; height: 170px; margin: 8px 1%; padding: 8px 1.5%;  float: left;}

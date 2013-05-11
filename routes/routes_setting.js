@@ -4,6 +4,7 @@ var db = require("../db/db")
 
 module.exports = function(app)
 {
+	var cache = app.get('cache');
 	app.get("/settings",function(req,res,next){
 		res.render("settings",{
 			title : "SYSTEM SETTINGS"
@@ -31,6 +32,7 @@ module.exports = function(app)
 					errorMsg : "添加失败"
 				});
 			}
+			cache.del('tags');
 			res.send({
 				errorCode : 0,
 				errorMsg : "添加成功"
@@ -58,6 +60,7 @@ module.exports = function(app)
 						errorMsg : "修改失败"
 					});
 				}
+				cache.del('tags');
 				res.send({
 					errorCode : 0,
 					errorMsg : "修改成功"				
@@ -75,6 +78,7 @@ module.exports = function(app)
 					errorMsg : "删除失败"
 				});
 			}
+			cache.del('tags');
 			res.send({
 				errorCode : 0,
 				errorMsg : "删除成功"
@@ -82,21 +86,25 @@ module.exports = function(app)
 		});
 	});
 	app.get("/tags",function(req,res,next){
-		Tag.query({status : 1},function(err, data){
-			if(err)
-			{
-				res.send({
-					errorCode : -1,
-					errorMsg : "加载数据失败"
-				})
-			}
-			else
-			{
+		if(!cache.get('tags'))
+		{
+			app.get("initPostData")(function(err){
+				if(err)
+				{
+					res.send({
+						errorCode : -1,
+						errorMsg : "加载数据失败"
+					})
+				}
 				res.send({
 					errorCode : 0,
-					tags : data
-				})
-			}
+					tags : cache.get('tags')
+				});
+			});
+		}
+		res.send({
+			errorCode : 0,
+			tags : cache.get('tags')
 		});
 	})
 }

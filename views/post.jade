@@ -1,0 +1,74 @@
+extends layout
+block content
+	article
+		header.entry-header
+			h3.title #{post.postTitle}
+			div.entry-meta
+				span 由
+				a.date(href="/user/"+post.author._id) #{post.author.userName}
+				span  发表于
+				span.date #{dateTimeFormat(post.createTime)}
+				span.tags  | 标签：
+					if(post.tags)
+						-each tag in post.tags
+							a(href="/tag/"+tag._id, class=getRandomLabelStyle()) #{tag.tagName}
+				span.reply  | 回复：
+					a(href="#",class=getrandomBadgeStyle()) #{post.reply}
+				span  | 浏览：
+					span #{post.hits}
+				a.edit(href="javascript:") 编辑
+		div.entry-description
+			| #{post.description}
+		div.entry-content
+			| !{post.content}
+		div.entry-comment
+			div.entry-comment-total 评论（10）
+			div.comment
+				table(border="0",cellspacing="0",cellpadding="0")
+					tr
+						td.comment-left(valign="top")
+							img(src="/img/bg.jpg")
+						td.comment-right(align="left",valign="top")
+							div.comment-right-top
+								a.user(href="javascript:") thesdboy
+								span  [2013-05-11 00:20:15]
+								span  回复  
+								a.user(href="javascript:") nick
+								a.comment-right-reply(href="javascript:") 回复TA
+							div.comment-right-content
+								| 回复测试，测试一下回复的显示效果
+								| 回复测试，测试一下回复的显示效果
+								| 回复测试，测试一下回复的显示效果
+								| 回复测试，测试一下回复的显示效果
+			div.comment
+				table(border="0",cellspacing="0",cellpadding="0")
+					tr
+						td.comment-left(valign="top")
+							img(src="/img/bg.jpg")
+						td.comment-right(align="left",valign="top")
+							div.comment-right-top
+								a.user(href="javascript:") thesdboy
+								span  [2013-05-11 00:20:15]
+								span  回复 
+								a.user(href="javascript:") nick
+								a.comment-right-reply(href="javascript:") 回复TA
+							div.comment-right-content
+								| 回复测试，测试一下回复的显示效果
+								| 回复测试，测试一下回复的显示效果
+								| 回复测试，测试一下回复的显示效果
+								| 回复测试，测试一下回复的显示效果
+			div.comment
+				table(border="0",cellspacing="0",cellpadding="0")
+					tr
+						td.comment-left(valign="top")
+							img(src="/img/bg.jpg")
+						td.comment-right(align="left",valign="top")
+							div.comment-right-top
+								a.user(href="javascript:") thesdboy
+								span  [2013-05-11 00:20:15]
+								a.comment-right-reply(href="javascript:") 回复TA
+							div.comment-right-content
+								| 回复测试，测试一下回复的显示效果
+								| 回复测试，测试一下回复的显示效果
+								| 回复测试，测试一下回复的显示效果
+								| 回复测试，测试一下回复的显示效果

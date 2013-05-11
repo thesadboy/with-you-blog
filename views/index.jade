@@ -5,10 +5,10 @@ block content
 			article
 				header.entry-header
 					h3.title
-						a(href=post.type=="blog" ? "/post/:"+post._id : "javascript:") #{post.postTitle}
+						a(href=post.type=="blog" ? "/post/"+post._id : "javascript:") #{post.postTitle}
 					div.entry-meta
 						span 由
-						a.date(href="/user/:"+post.author._id) #{post.author.userName}
+						a.date(href="/user/"+post.author._id) #{post.author.userName}
 						span  发表于
 						span.date #{dateTimeFormat(post.createTime)}
 				div.entry-content
@@ -17,7 +17,7 @@ block content
 					span.tags 标签：
 						if(post.tags)
 							-each tag in post.tags
-								a(href="/tag/:"+tag._id, class=getRandomLabelStyle()) #{tag.tagName}
+								a(href="/tag/"+tag._id, class=getRandomLabelStyle()) #{tag.tagName}
 					span.reply  | 回复：
 						a(href="#",class=getrandomBadgeStyle()) #{post.reply}
 					span  | 浏览：

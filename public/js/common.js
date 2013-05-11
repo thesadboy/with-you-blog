@@ -143,9 +143,41 @@ $(document).ready(function(){
 				var items = '';
 				for(var i = 0; i < g_tags.length ; i ++)
 				{
-					items += '<li><a class="'+getrandomBadgeStyle()+'" href="/tag/:'+g_tags[i]._id+'">'+g_tags[i].tagName+'</a></li>';
+					items += '<li><a class="'+getrandomBadgeStyle()+'" href="/tag/'+g_tags[i]._id+'">'+g_tags[i].tagName+'</a></li>';
 				}
 				$("ul#right-tags").html(items);
+			}
+		}
+	});
+	//将最新发表的博客放到右边的列表中
+	$.get("/post/latest/post",function(data, status){
+		if(status == "success")
+		{
+			if(data.errorCode == 0)
+			{
+				g_latest_post = data.posts;
+				var items = '';
+				for(var i = 0; i < g_latest_post.length; i ++)
+				{
+					items += '<li><a href="/post/'+g_latest_post[i]._id+'"title="'+g_latest_post[i].postTitle+'">'+ g_latest_post[i].postTitle +'</a></li>';
+				}
+				$("ul#latest_post").html(items);
+			}
+		}
+	});
+	//将最新回复的博客放到右边的列表中
+	$.get("/post/latest/reply",function(data, status){
+		if(status == "success")
+		{
+			if(data.errorCode == 0)
+			{
+				g_latest_reply = data.posts;
+				var items = '';
+				for(var i = 0; i < g_latest_reply.length; i ++)
+				{
+					items += '<li><a href="/post/'+g_latest_reply[i]._id+'" title="'+g_latest_reply[i].postTitle+'">' + g_latest_reply[i].postTitle + '</a></li>';
+				}
+				$("ul#latest_reply").html(items);
 			}
 		}
 	});

@@ -4,7 +4,8 @@ var express = require('express')
 	, path = require('path')
 	, MongoStore = require("connect-mongo")(express)
 	, fs = require("fs")
-	, argv = require("optimist").default("config",process.cwd()+"/config.json").argv;
+	, argv = require("optimist").default("config",process.cwd()+"/config.json").argv
+	, cache = require("memory-cache");
 
 var app = express();
 try{
@@ -18,6 +19,7 @@ app.set('port', options.port || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.set('options',options);
+app.set('cache',cache);
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());

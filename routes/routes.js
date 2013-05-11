@@ -4,8 +4,65 @@ var userRoute = require('./routes_user')
 	,Post = require("../db/post")
 	,Tag = require("../db/Tag");
 function route(app){
+	var cache = app.get('cache');
+	//初始化部分数据
+	app.set('initPostData',function(callback){
+		Post.query({type:'blog'},0,10,{createTime:-1},function(err, data, count){
+			if(!err)
+			{
+				cache.put('latest_post',data, 60000);
+				Post.query({type:'blog'},0,10,{updateTime:-1},function(err, data, count){
+					if(!err)
+					{
+						cache.put('latest_reply',data, 60000);
+						if(!cache.get('tags'))
+						{
+							Tag.query({status : 1},function(err, data){
+								if(!err)
+								{
+									cache.put('tags',data);
+									if(callback)
+										return callback();
+								}
+								else
+								{
+									if(callback)
+										return callback(err);
+								}
+							});
+						}
+						else
+						{
+							if(callback)
+								return callback();
+						}
+					}
+					else
+					{
+						if(callback)
+							return callback(err);
+					}
+				});
+			}
+			else
+			{
+				if(callback)
+					return callback(err);
+			}
+		});
+	});
+	app.get("initPostData")();
 	app.locals({
 		nav:"home",
+	});
+	app.get("/*",function(req,res,next){
+		if(!cache.get("latest_reply") || !cache.get("latest_post") || !cache.get("tags")){
+			app.get("initPostData")(function(){
+				next();
+			});
+		} else{
+			next();
+		}
 	});
 	app.get("/",function(req,res,next){
 		Post.query({},0,10,{createTime:-1},function(err, data, count)
