@@ -12,6 +12,7 @@
     "connect-mongo":"*",
     "optimist":"*",
     "node-markdown":"*",
-    "memory-cache":"*"
+    "memory-cache":"*",
+    "generic-pool":"*"
   }
 }

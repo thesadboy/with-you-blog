@@ -1,5 +1,4 @@
-var db = require("../db/db")
-	,Post = require("../db/Post")
+var Post = require("../db/Post")
 	,md = require("node-markdown").Markdown;
 
 module.exports = function(app){

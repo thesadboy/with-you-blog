@@ -1,4 +1,4 @@
-var _db = require("./db")
+var pool = require("./pool")
 	,BSON = require("mongodb").BSONPure;
 function Tag(tag)
 {
@@ -18,7 +18,7 @@ Tag.prototype.save = function(callback)
 		tagDescription : this.tagDescription,
 		status : this.status
 	}
-	_db.open(function(err,db){
+	pool.acquire(function(err,db){
 		if(err)
 		{
 			return callback(err);
@@ -26,19 +26,18 @@ Tag.prototype.save = function(callback)
 		db.collection("tags",function(err,collection){
 			if(err)
 			{
-				_db.close();
 				return callback(err);
 			}
 			collection.ensureIndex('tagName',{unique:true});
 			collection.insert(tag,{safe:true},function(err,tag){
-				_db.close();
+				pool.release(db);
 				return callback(err,tag);
 			});
 		});
 	});
 }
 Tag.get = function(tagId, callback){
-	_db.open(function(err, db){
+	pool.acquire(function(err,db){
 		if(err)
 		{
 			return callback(err);
@@ -46,11 +45,10 @@ Tag.get = function(tagId, callback){
 		db.collection('tags',function(err, collection){
 			if(err)
 			{
-				_db.close();
 				return callback(err);
 			}
 			collection.findOne({_id:new BSON.ObjectID(tagId)},function(err,doc){
-				_db.close();
+				pool.release(db);
 				if(doc)
 				{
 					var tag = new Tag(doc);
@@ -66,7 +64,7 @@ Tag.get = function(tagId, callback){
 }
 Tag.update = function(tag, callback)
 {
-	_db.open(function(err, db){
+	pool.acquire(function(err,db){
 		if(err)
 		{
 			return callback(err);
@@ -74,11 +72,10 @@ Tag.update = function(tag, callback)
 		db.collection('tags',function(err, collection){
 			if(err)
 			{
-				_db.close();
 				return callback(err);
 			}
 			collection.save(tag, function(err, doc){
-				_db.close();
+				pool.release(db);
 				if(doc)
 				{
 					var tag = new Tag(doc);
@@ -93,7 +90,7 @@ Tag.update = function(tag, callback)
 	});
 }
 Tag.query = function(conditions, callback){
-	_db.open(function(err,db){
+	pool.acquire(function(err,db){
 		if(err)
 		{
 			return callback(err);
@@ -101,11 +98,10 @@ Tag.query = function(conditions, callback){
 		db.collection('tags',function(err, collection){
 			if(err)
 			{
-				_db.close();
 				return callback(err);
 			}
 			collection.find(conditions).sort({tagName:-1}).toArray(function(err, docs){
-				_db.close();
+				pool.release(db);
 				if(err)
 				{
 					return callback(err);
@@ -125,7 +121,7 @@ Tag.query = function(conditions, callback){
 }
 Tag.delete = function(tagId, callback)
 {
-	_db.open(function(err, db){
+	pool.acquire(function(err,db){
 		if(err)
 		{
 			return callback(err);
@@ -133,11 +129,10 @@ Tag.delete = function(tagId, callback)
 		db.collection('tags',function(err, collection){
 			if(err)
 			{
-				_db.close();
 				return callback(err);
 			}
 			collection.remove({_id:new BSON.ObjectID(tagId)},{safe:true},function(err){
-				_db.close();
+				pool.release(db);
 				return callback(err);
 			});
 		});

@@ -1,4 +1,4 @@
-var _db = require("./db");
+var pool = require("./pool");
 function User(user){
 	this._id = user._id;
 	this.userName = user.userName;
@@ -30,7 +30,7 @@ User.prototype.save = function(callback)
 		loginIp : this.loginIp,
 		lastLoginIp : this.lastLoginIp
 	}
-	_db.open(function(err, db){
+	pool.acquire(function(err,db){
 		if(err)
 		{
 			return callback(err);
@@ -38,21 +38,20 @@ User.prototype.save = function(callback)
 		db.collection('users',function(err, collection){
 			if(err)
 			{
-				_db.close()
 				return callback(err);
 			}
 			//为userName属性添加索引
 			collection.ensureIndex('userName', {unique : true});
 			//写入user文档
 			collection.insert(user,{safe:true},function(err, user){
-				_db.close();
 				callback(err,user);
+				pool.release(db);
 			});
 		});
 	});
 }
 User.get = function(username,callback){
-	_db.open(function(err,db){
+	pool.acquire(function(err,db){
 		if(err)
 		{
 			return callback(err);
@@ -60,11 +59,10 @@ User.get = function(username,callback){
 		db.collection('users',function(err, collection){
 			if(err)
 			{
-				_db.close();
 				return callback(err);
 			}
 			collection.findOne({userName:username}, function(err, doc){
-				_db.close();
+				pool.release(db);
 				if(doc)
 				{
 					var user = new User(doc);
@@ -79,7 +77,7 @@ User.get = function(username,callback){
 	});
 };
 User.update = function(user, callback){
-	_db.open(function(err, db){
+	pool.acquire(function(err,db){
 		if(err)
 		{
 			return callback(err);
@@ -87,11 +85,10 @@ User.update = function(user, callback){
 		db.collection('users',function(err, collection){
 			if(err)
 			{
-				_db.close();
 				return callback(err);
 			}
 			collection.save(user, {safe:true}, function(err, doc){
-				_db.close();
+				pool.release(db);
 				if(doc)
 				{
 					var user = new User(doc);

@@ -1,5 +1,4 @@
-var db = require("../db/db")
-	, crypto = require("crypto")
+var crypto = require("crypto")
 	,User = require("../db/User");
 
 module.exports = function(app)

@@ -1,4 +1,4 @@
-var _db = require("./db")
+var pool = require("./pool")
 	,BSON = require("mongodb").BSONPure;
 function Post(post)
 {
@@ -32,7 +32,7 @@ Post.prototype.save = function(callback)
 		reply : this.reply,
 		hits : this.hits
 	}
-	_db.open(function(err, db){
+	pool.acquire(function(err,db){
 		if(err)
 		{
 			return callback(err);
@@ -40,18 +40,17 @@ Post.prototype.save = function(callback)
 		db.collection("posts",function(err, collection){
 			if(err)
 			{
-				_db.close();
 				return callback(err);
 			}
 			collection.insert(post,{safe:true},function(err,tag){
-				_db.close();
+				pool.release(db);
 				return callback(err,tag);
 			});
 		});
 	});
 }
 Post.get = function(postId, callback){
-	_db.open(function(err, db){
+	pool.acquire(function(err,db){
 		if(err)
 		{
 			return callback(err);
@@ -59,11 +58,10 @@ Post.get = function(postId, callback){
 		db.collection("posts",function(err, collection){
 			if(err)
 			{
-				_db.close();
 				return callback(err);
 			}
 			collection.findOne({_id:new BSON.ObjectID(postId)},function(err, doc){
-				_db.close();
+				pool.release(db);
 				if(doc)
 				{
 					var post = new Post(doc);
@@ -75,7 +73,7 @@ Post.get = function(postId, callback){
 	});
 }
 Post.update = function(post, callback){
-	_db.open(function(err, db){
+	pool.acquire(function(err,db){
 		if(err)
 		{
 			return callback(err);
@@ -83,11 +81,10 @@ Post.update = function(post, callback){
 		db.collection("posts",function(err, collection){
 			if(err)
 			{
-				_db.close();
 				return callback(err);
 			}
 			collection.save(post,{safe:true},function(err, doc){
-				_db.close();
+				pool.release(db);
 				if(doc)
 				{
 					var post = new Post(doc);
@@ -99,7 +96,7 @@ Post.update = function(post, callback){
 	});
 }
 Post.query = function(conditions, startData, pageSize, sortOptions, callback){
-	_db.open(function(err, db){
+	pool.acquire(function(err,db){
 		if(err)
 		{
 			return callback(err);
@@ -107,7 +104,6 @@ Post.query = function(conditions, startData, pageSize, sortOptions, callback){
 		db.collection("posts",function(err, collection){
 			if(err)
 			{
-				_db.close();
 				return callback(err);
 			}
 			collection.count(conditions,function(err, count){
@@ -116,7 +112,7 @@ Post.query = function(conditions, startData, pageSize, sortOptions, callback){
 					return callback(err);
 				}
 				collection.find(conditions).sort(sortOptions).skip(startData).limit(pageSize).toArray(function(err, docs){
-					_db.close();
+					pool.release(db);
 					if(err)
 					{
 						return callback(err);
@@ -133,7 +129,7 @@ Post.query = function(conditions, startData, pageSize, sortOptions, callback){
 	});
 }
 Post.delete = function(postId, callback){
-	_db.open(function(err, db){
+	pool.acquire(function(err,db){
 		if(err)
 		{
 			return callback(err);
@@ -141,11 +137,10 @@ Post.delete = function(postId, callback){
 		db.collection("posts",function(err, collection){
 			if(err)
 			{
-				_db.close();
 				return callback(err);
 			}
 			collection.remove({_id: new BSON.ObjectID(postId)},{safe : true},function(err){
-				_db.close();
+				pool.release(db);
 				return callback(err);
 			});
 		});

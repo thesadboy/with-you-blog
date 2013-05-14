@@ -2,7 +2,7 @@
 	"port" : "3000",
 	"database":
 	{
-		"host" : "127.0.0.1",
+		"url" : "mongodb://127.0.0.1:27017/with-you-blog",
 		"port":"27017",
 		"db" : "with-you-blog",
 		"cookieSecret" : "with-you-blog",
