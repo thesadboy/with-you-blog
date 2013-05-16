@@ -12,12 +12,7 @@ module.exports = Tag;
 
 Tag.prototype.save = function(callback)
 {
-	var tag = {
-		_id : this._id,
-		tagName : this.tagName,
-		tagDescription : this.tagDescription,
-		status : this.status
-	}
+	var tag = this;
 	pool.acquire(function(err,db){
 		if(err)
 		{

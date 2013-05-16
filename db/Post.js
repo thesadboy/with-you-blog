@@ -18,20 +18,7 @@ function Post(post)
 module.exports = Post;
 Post.prototype.save = function(callback)
 {
-	var post = {
-		_id : this._id,
-		type : this.type,
-		imgUrl : this.imgUrl,
-		postTitle : this.postTitle,
-		description : this.description,
-		content : this.content,
-		tags : this.tags,
-		createTime : this.createTime,
-		updateTime : this.updateTime,
-		author : this.author,
-		reply : this.reply,
-		hits : this.hits
-	}
+	var post = this;
 	pool.acquire(function(err,db){
 		if(err)
 		{

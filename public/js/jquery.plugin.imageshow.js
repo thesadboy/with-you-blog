@@ -1,7 +1,7 @@
 $.fn.imageshow = function(options){
 	var defaults = {
 		isEscKey  : true	
-	}
+	};
 	var opts = $.extend(defaults, options);
 	$(this).click(function(event) {
 		_this = this;

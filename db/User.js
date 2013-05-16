@@ -17,19 +17,7 @@ module.exports = User;
 User.prototype.save = function(callback)
 {
 	//存入Mongodb的文档
-	var user = {
-		_id : this._id,
-		userName : this.userName,
-		password : this.password,
-		name : this.name,
-		email : this.email,
-		birth : this.birth,
-		createTime : this.createTime,
-		loginTime : this.loginTime,
-		lastLoginTime : this.lastLoginTime,
-		loginIp : this.loginIp,
-		lastLoginIp : this.lastLoginIp
-	}
+	var user = this;
 	pool.acquire(function(err,db){
 		if(err)
 		{
