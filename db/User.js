@@ -26,6 +26,7 @@ User.prototype.save = function(callback)
 		db.collection('users',function(err, collection){
 			if(err)
 			{
+				pool.release(db);
 				return callback(err);
 			}
 			//为userName属性添加索引
@@ -47,6 +48,7 @@ User.get = function(username,callback){
 		db.collection('users',function(err, collection){
 			if(err)
 			{
+				pool.release(db);
 				return callback(err);
 			}
 			collection.findOne({userName:username}, function(err, doc){
@@ -73,6 +75,7 @@ User.update = function(user, callback){
 		db.collection('users',function(err, collection){
 			if(err)
 			{
+				pool.release(db);
 				return callback(err);
 			}
 			collection.save(user, {safe:true}, function(err, doc){

@@ -21,6 +21,7 @@ Tag.prototype.save = function(callback)
 		db.collection("tags",function(err,collection){
 			if(err)
 			{
+				pool.release(db);
 				return callback(err);
 			}
 			collection.ensureIndex('tagName',{unique:true});
@@ -40,6 +41,7 @@ Tag.get = function(tagId, callback){
 		db.collection('tags',function(err, collection){
 			if(err)
 			{
+				pool.release(db);
 				return callback(err);
 			}
 			collection.findOne({_id:new BSON.ObjectID(tagId)},function(err,doc){
@@ -67,6 +69,7 @@ Tag.update = function(tag, callback)
 		db.collection('tags',function(err, collection){
 			if(err)
 			{
+				pool.release(db);
 				return callback(err);
 			}
 			collection.save(tag, function(err, doc){
@@ -93,6 +96,7 @@ Tag.query = function(conditions, callback){
 		db.collection('tags',function(err, collection){
 			if(err)
 			{
+				pool.release(db);
 				return callback(err);
 			}
 			collection.find(conditions).sort({tagName:-1}).toArray(function(err, docs){
@@ -124,6 +128,7 @@ Tag.delete = function(tagId, callback)
 		db.collection('tags',function(err, collection){
 			if(err)
 			{
+				pool.release(db);
 				return callback(err);
 			}
 			collection.remove({_id:new BSON.ObjectID(tagId)},{safe:true},function(err){

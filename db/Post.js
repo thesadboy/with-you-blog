@@ -27,6 +27,7 @@ Post.prototype.save = function(callback)
 		db.collection("posts",function(err, collection){
 			if(err)
 			{
+				pool.release(db);
 				return callback(err);
 			}
 			collection.insert(post,{safe:true},function(err,tag){
@@ -45,6 +46,7 @@ Post.get = function(postId, callback){
 		db.collection("posts",function(err, collection){
 			if(err)
 			{
+				pool.release(db);
 				return callback(err);
 			}
 			collection.findOne({_id:new BSON.ObjectID(postId)},function(err, doc){
@@ -68,6 +70,7 @@ Post.update = function(post, callback){
 		db.collection("posts",function(err, collection){
 			if(err)
 			{
+				pool.release(db);
 				return callback(err);
 			}
 			collection.save(post,{safe:true},function(err, doc){
@@ -91,6 +94,7 @@ Post.query = function(conditions, startData, pageSize, sortOptions, callback){
 		db.collection("posts",function(err, collection){
 			if(err)
 			{
+				pool.release(db);
 				return callback(err);
 			}
 			collection.count(conditions,function(err, count){
@@ -124,6 +128,7 @@ Post.delete = function(postId, callback){
 		db.collection("posts",function(err, collection){
 			if(err)
 			{
+				pool.release(db);
 				return callback(err);
 			}
 			collection.remove({_id: new BSON.ObjectID(postId)},{safe : true},function(err){

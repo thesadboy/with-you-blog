@@ -1,6 +1,7 @@
 var userRoute = require('./routes_user')
 	,settingRoute = require("./routes_setting")
 	,postRoute = require("./routes_post")
+	,replyRoute = require("./routes_reply")
 	,Post = require("../db/post")
 	,Tag = require("../db/Tag");
 function route(app){
@@ -97,6 +98,7 @@ function route(app){
 				var extCount = count % pageSize;
 				pages = (count - extCount) / pageSize;
 				pages = extCount  == 0 ? pages : pages + 1;
+				pages = pages == 0 ? pages + 1 : pages;
 			}
 			res.render("blogs",{
 				title: "SWEET DESCRIPTION",
@@ -125,5 +127,6 @@ function route(app){
 	userRoute(app);
 	settingRoute(app);
 	postRoute(app);
+	replyRoute(app);
 };
 module.exports = route;

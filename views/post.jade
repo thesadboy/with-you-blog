@@ -22,53 +22,23 @@ block content
 		div.entry-content
 			| !{post.content}
 		div.entry-comment
-			div.entry-comment-total 评论（10）
-			div.comment
-				table(border="0",cellspacing="0",cellpadding="0")
-					tr
-						td.comment-left(valign="top")
-							img(src="/img/bg.jpg")
-						td.comment-right(align="left",valign="top")
-							div.comment-right-top
-								a.user(href="javascript:") thesdboy
-								span  [2013-05-11 00:20:15]
-								span  回复  
-								a.user(href="javascript:") nick
-								a.comment-right-reply(href="javascript:") 回复TA
-							div.comment-right-content
-								| 回复测试，测试一下回复的显示效果
-								| 回复测试，测试一下回复的显示效果
-								| 回复测试，测试一下回复的显示效果
-								| 回复测试，测试一下回复的显示效果
-			div.comment
-				table(border="0",cellspacing="0",cellpadding="0")
-					tr
-						td.comment-left(valign="top")
-							img(src="/img/bg.jpg")
-						td.comment-right(align="left",valign="top")
-							div.comment-right-top
-								a.user(href="javascript:") thesdboy
-								span  [2013-05-11 00:20:15]
-								span  回复 
-								a.user(href="javascript:") nick
-								a.comment-right-reply(href="javascript:") 回复TA
-							div.comment-right-content
-								| 回复测试，测试一下回复的显示效果
-								| 回复测试，测试一下回复的显示效果
-								| 回复测试，测试一下回复的显示效果
-								| 回复测试，测试一下回复的显示效果
-			div.comment
-				table(border="0",cellspacing="0",cellpadding="0")
-					tr
-						td.comment-left(valign="top")
-							img(src="/img/bg.jpg")
-						td.comment-right(align="left",valign="top")
-							div.comment-right-top
-								a.user(href="javascript:") thesdboy
-								span  [2013-05-11 00:20:15]
-								a.comment-right-reply(href="javascript:") 回复TA
-							div.comment-right-content
-								| 回复测试，测试一下回复的显示效果
-								| 回复测试，测试一下回复的显示效果
-								| 回复测试，测试一下回复的显示效果
-								| 回复测试，测试一下回复的显示效果
+			div#post-reply-total.entry-comment-total
+			div#post-reply
+			div#comments-page.pagination
+			script
+				commentsPagination("#{post._id}",#{user == null ? false : true});
+		-if(user)
+			form
+				div.new-comment
+					input(type="hidden",id="post-id",value=post._id)
+					input(type="hidden",id="reply-to",value=post.author.userName)
+					button#new-comment-reset.hide(type="reset")
+					legend 新增回复
+					div#new-comment-editor
+					div.control-group.error
+						div.controls
+							p#new-comment-error.help-block 
+					div.form-actions
+						a#new-comment-reply.btn(href="javascript:",data-loading-text="发表中...") 发表回复
+				script
+					$("#new-comment-editor").load("/post/editor/new-reply");
