@@ -13,7 +13,6 @@
     "optimist":"*",
     "node-markdown":"*",
     "memory-cache":"*",
-    "generic-pool":"*",
-    "showdown":"*"
+    "generic-pool":"*"
   }
 }
