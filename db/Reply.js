@@ -1,5 +1,6 @@
 var pool = require("./pool")
-	,BSON = require("mongodb").BSONPure;
+	,BSON = require("mongodb").BSONPure
+	,md = require("node-markdown").Markdown;
 function Reply(reply)
 {
 	this._id = reply._id;
@@ -59,7 +60,7 @@ Reply.get = function(replyId, callback)
 		});
 	});
 }
-Reply.query = function(conditions, startData, pageSize, sortOptions, callback)
+Reply.query = function(conditions, startData, pageSize, sortOptions, needConvert, callback)
 {
 	pool.acquire(function(err, db){
 		db.collection("replies",function(err, collection){
@@ -82,6 +83,10 @@ Reply.query = function(conditions, startData, pageSize, sortOptions, callback)
 					var replies = [];
 					docs.forEach(function(doc,index){
 						var reply = new Reply(doc);
+						if(needConvert)
+						{
+							reply.content = md(reply.content);
+						}
 						replies.push(reply);
 					});
 					return callback(err, replies, count);

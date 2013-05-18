@@ -235,12 +235,13 @@ $(document).ready(function() {
 		var _this = this;
 		$(_this).button("loading");
 		//验证
-		if ($("#wmd-input").val().replace(/[ ]/g, "").length < 10) {
-			$("#new-comment-error").html("回复内容不能少于十个字符");
+		if ($("#wmd-input").val().replace(/[ ]/g, "").length < 5) {
+			$("#new-comment-error").html("回复内容不能少于五个字符");
 			$(_this).button("reset");
 			setTimeout(function() {
 				$("#new-comment-error").html("");
 			}, 1500);
+			return;
 		}
 		//验证通过，发表回复
 		var replyInfo = {
@@ -354,7 +355,7 @@ function commentsPagination(postId,needReply) {
 			aHtml.push('<td class="comment-right" align="left" valign="top">');
 			aHtml.push('<div class="comment-right-top">')
 			aHtml.push('<a class="user" href="/user/' + replies[i].author._id + '">' + replies[i].author.userName + '</a>');
-			aHtml.push('<span>&nbsp;[' + replies[i].createTime + '] 回复&nbsp;</span>');
+			aHtml.push('<span>&nbsp;[' + new Date(replies[i].createTime).format() + '] 回复&nbsp;</span>');
 			if (replies[i].to) {
 				aHtml.push('<a class="user" href="/user/' + replies[i].to._id + '">' + replies[i].to.userName + '</a>');
 			}
@@ -371,4 +372,21 @@ function commentsPagination(postId,needReply) {
 		var sHtml = aHtml.join("");
 		$("#post-reply").html(sHtml);
 	}
+}
+//时间格式化
+Date.prototype.format = function()
+{
+	var formated = '';
+	formated += this.getFullYear();
+	formated += '-';
+	formated += this.getMonth() + 1 < 10 ? '0' + (this.getMonth() + 1) : this.getMonth() + 1;
+	formated += '-';
+	formated += this.getDate() < 10 ? '0' + this.getDate() : this.getDate();
+	formated += ' ';
+	formated += this.getHours() < 10 ? '0' + this.getHours() : this.getHours();
+	formated += ':';
+	formated += this.getMinutes() < 10 ? '0' + this.getMinutes() : this.getMinutes();
+	formated += ':';
+	formated += this.getSeconds() < 10 ? '0' + this.getSeconds() : this.getSeconds();
+	return formated;
 }

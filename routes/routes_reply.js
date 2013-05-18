@@ -61,7 +61,7 @@ module.exports = function(app) {
 		var pageSize = 20;
 		var pages = 0;
 		var replies = [];
-		Reply.query({status:1, postId : postId},(page -1) * pageSize, pageSize,{createTime:-1},function(err, data, count){
+		Reply.query({status:1, postId : postId},(page -1) * pageSize, pageSize,{createTime:-1},true,function(err, data, count){
 			if(!err)
 			{
 				replies = data;

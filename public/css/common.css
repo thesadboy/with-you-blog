@@ -113,7 +113,7 @@ body{
 .comment-right-top{padding-bottom: 5px; float: left; width: 100%;}
 .comment-right-top *{float:left;}
 .comment-right-top a{text-decoration: none;}
-.comment-right-content{}
+.comment-right-content{float: left; width: 100%;}
 .comment-right-reply{float:right;visibility: hidden; }
 .comment:hover .comment-right-reply{visibility: visible;}
 /*photos*/
