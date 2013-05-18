@@ -31,6 +31,7 @@ module.exports = function(app) {
 					});
 				}
 				post.updateTime = new Date();
+				post.reply ++;
 				Post.update(post, function(err) {
 					if (err) {
 						res.send({

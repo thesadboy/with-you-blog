@@ -19,7 +19,7 @@ block content
 							-each tag in post.tags
 								a(href="/tag/"+tag._id, class=getRandomLabelStyle()) #{tag.tagName}
 					span.reply  | 回复：
-						a(href="#",class=getrandomBadgeStyle()) #{post.reply}
+						span(class=getrandomBadgeStyle()) #{post.reply}
 					span  | 浏览：
 						span #{post.hits}
 

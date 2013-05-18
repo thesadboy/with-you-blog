@@ -13,7 +13,7 @@ block content
 						-each tag in post.tags
 							a(href="/tag/"+tag._id, class=getRandomLabelStyle()) #{tag.tagName}
 				span.reply  | 回复：
-					a(href="#",class=getrandomBadgeStyle()) #{post.reply}
+					a(href="#comment",class=getrandomBadgeStyle()) #{post.reply}
 				span  | 浏览：
 					span #{post.hits}
 				a.edit(href="javascript:") 编辑
@@ -21,6 +21,7 @@ block content
 			| #{post.description}
 		div.entry-content
 			| !{post.content}
+		a(name="#comment",id="comment")
 		div.entry-comment
 			div#post-reply-total.entry-comment-total
 			div#post-reply
