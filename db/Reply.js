@@ -1,5 +1,6 @@
 var pool = require("./pool")
 	,BSON = require("mongodb").BSONPure
+	,converter = require("../utils/custom-converter")
 	,md = require("node-markdown").Markdown;
 function Reply(reply)
 {
@@ -85,7 +86,7 @@ Reply.query = function(conditions, startData, pageSize, sortOptions, needConvert
 						var reply = new Reply(doc);
 						if(needConvert)
 						{
-							reply.content = md(reply.content);
+							reply.content = converter(reply.content);
 						}
 						replies.push(reply);
 					});

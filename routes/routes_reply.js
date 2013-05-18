@@ -1,7 +1,6 @@
 var Post = require("../db/Post"),
 	Reply = require("../db/Reply"),
-	User = require("../db/User"),
-	md = require("node-markdown").Markdown;
+	User = require("../db/User");
 
 module.exports = function(app) {
 	var cache = app.get('cache');

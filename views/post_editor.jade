@@ -37,7 +37,9 @@ html
 		$("#preview").click(function () {
 			var converter = new Markdown.Converter();
 			var markdown_content = $("#wmd-input").val();
-			$("div#markdownpreview").html(converter.makeHtml(markdown_content));
+			$("div#markdownpreview").html(converter.makeHtml(markdown_content).replace(/<pre><code>/g,'<pre class="prettyprint"><code>'));
+			//code pretty
+			prettyPrint();
 		});
 		$("#editor-tagslist a.label").click(function(e){
 			$(this).toggleClass("label-info");

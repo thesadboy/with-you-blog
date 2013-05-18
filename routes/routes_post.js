@@ -1,5 +1,5 @@
 var Post = require("../db/Post")
-	,md = require("node-markdown").Markdown;
+	,converter = require("../utils/custom-converter");
 
 module.exports = function(app){
 	var cache = app.get('cache');
@@ -91,7 +91,7 @@ module.exports = function(app){
 				//将该博客的浏览量增加一个
 				post.hits ++;
 				Post.update(post,function(err){
-					post.content = md(post.content);
+					post.content = converter(post.content);
 					res.render('post',{
 						title: data.postTitle,
 						nav : "blogs",

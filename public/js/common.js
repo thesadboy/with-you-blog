@@ -1,5 +1,7 @@
 var g_tags = [];
 $(document).ready(function() {
+	//code pretty
+	prettyPrint();
 	//输入框事件监听
 	$("#input-password").keypress(function(event) {
 		if (event.keyCode == 13) {
@@ -371,6 +373,8 @@ function commentsPagination(postId,needReply) {
 		}
 		var sHtml = aHtml.join("");
 		$("#post-reply").html(sHtml);
+		//code pretty
+		prettyPrint();
 	}
 }
 //时间格式化
