@@ -8,7 +8,7 @@ block content
 						a(href=post.type=="blog" ? "/post/"+post._id : "javascript:") #{post.postTitle}
 					div.entry-meta
 						span 由
-						a.date(href="/user/"+post.author._id) #{post.author.userName}
+						a.date(href="/user/"+post.author.userName) #{post.author.userName}
 						span  发表于
 						span.date #{dateTimeFormat(post.createTime)}
 				div.entry-content

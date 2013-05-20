@@ -5,7 +5,7 @@ block content
 			h3.title #{post.postTitle}
 			div.entry-meta
 				span 由
-				a.date(href="/user/"+post.author._id) #{post.author.userName}
+				a.date(href="/user/"+post.author.userName) #{post.author.userName}
 				span  发表于
 				span.date #{dateTimeFormat(post.createTime)}
 				span.tags  | 标签：
@@ -21,7 +21,7 @@ block content
 			| #{post.description}
 		div.entry-content
 			| !{post.content}
-		a(name="#comment",id="comment")
+		a(name="comment",id="comment")
 		div.entry-comment
 			div#post-reply-total.entry-comment-total
 			div#post-reply
@@ -29,12 +29,13 @@ block content
 			script
 				commentsPagination("#{post._id}",#{user == null ? false : true});
 		-if(user)
+			a(name="new-comment", id="new-comment")
 			form
 				div.new-comment
 					input(type="hidden",id="post-id",value=post._id)
 					input(type="hidden",id="reply-to",value=post.author.userName)
 					button#new-comment-reset.hide(type="reset")
-					legend 新增回复
+					legend#new-comment-title 新增回复
 					div#new-comment-editor
 					div.control-group.error
 						div.controls

@@ -356,13 +356,13 @@ function commentsPagination(postId,needReply) {
 			aHtml.push('</td>');
 			aHtml.push('<td class="comment-right" align="left" valign="top">');
 			aHtml.push('<div class="comment-right-top">')
-			aHtml.push('<a class="user" href="/user/' + replies[i].author._id + '">' + replies[i].author.userName + '</a>');
+			aHtml.push('<a class="user" href="/user/' + replies[i].author.userName + '">' + replies[i].author.userName + '</a>');
 			aHtml.push('<span>&nbsp;[' + new Date(replies[i].createTime).format() + '] 回复&nbsp;</span>');
 			if (replies[i].to) {
-				aHtml.push('<a class="user" href="/user/' + replies[i].to._id + '">' + replies[i].to.userName + '</a>');
+				aHtml.push('<a class="user" href="/user/' + replies[i].to.userName + '">' + replies[i].to.userName + '</a>');
 			}
 			if (needReply) {
-				aHtml.push('<a class="comment-right-reply" href="javascript:" to="' + replies[i].author.userName + '">回复TA</a>');
+				aHtml.push('<a class="comment-right-reply btn-reply-someone" href="javascript:" to="' + replies[i].author.userName + '">回复TA</a>');
 			}
 			aHtml.push('</div>')
 			aHtml.push('<div class="comment-right-content">' + replies[i].content + '</div>');
@@ -375,6 +375,11 @@ function commentsPagination(postId,needReply) {
 		$("#post-reply").html(sHtml);
 		//code pretty
 		prettyPrint();
+		$(".btn-reply-someone").click(function (e) {
+			window.location.href = "#new-comment";
+			$("#reply-to").val($(this).attr("to"));
+			$("#new-comment-title").html("回复："+$(this).attr("to"));
+		});
 	}
 }
 //时间格式化
