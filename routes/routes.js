@@ -2,7 +2,7 @@ var userRoute = require('./routes_user')
 	,settingRoute = require("./routes_setting")
 	,postRoute = require("./routes_post")
 	,replyRoute = require("./routes_reply")
-	,Post = require("../db/post")
+	,Post = require("../db/Post")
 	,Tag = require("../db/Tag");
 function route(app){
 	var cache = app.get('cache');
