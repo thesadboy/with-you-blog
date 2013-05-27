@@ -2,8 +2,8 @@
 	"port" : "3000",
 	"database":
 	{
-		"url" : "mongodb://127.0.0.1:27017/with-you-blog",
-		"port":"27017",
+		"url" : "mongodb://nick:nickzhang@widmore.mongohq.com:10000/with-you-blog",
+		"port":"10000",
 		"db" : "with-you-blog",
 		"cookieSecret" : "with-you-blog",
 		"server_option":
