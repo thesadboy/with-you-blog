@@ -15,7 +15,7 @@ try{
 	throw new Error("could not read config " + argv.config + "internal error: " + e.toString());
 }
 // all environments
-app.set('port', process.env.VCAP_APP_PORT || options.port || 3000);
+app.set('port', process.env.VCAP_APP_PORT ||  options.port || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.set('options',options);
@@ -28,7 +28,7 @@ app.use(express.cookieParser());
 app.use(express.session({
 	secret : options.database.cookieSecret,
 	store : new MongoStore({
-		db : process.env.MONGOHQ_URL == null ? options.database.db : 'with_you_blog_thesadboy'
+		db : options.database.db
 	})
 }));
 app.use(function(req,res,next){
