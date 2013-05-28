@@ -28,7 +28,7 @@ app.use(express.cookieParser());
 app.use(express.session({
 	secret : options.database.cookieSecret,
 	store : new MongoStore({
-		db : options.database.db
+		db : process.env.MONGOHQ_URL == null ? options.database.db : 'with_you_blog_thesadboy'
 	})
 }));
 app.use(function(req,res,next){

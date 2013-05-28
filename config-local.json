@@ -3,6 +3,7 @@
 	"database":
 	{
 		"url" : "mongodb://nick:nickzhang@widmore.mongohq.com:10000/with-you-blog",
+		"port":"10000",
 		"db" : "with-you-blog",
 		"cookieSecret" : "with-you-blog",
 		"server_option":

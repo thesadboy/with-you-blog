@@ -13,7 +13,7 @@ try{
 module.exports = poolModule.Pool({
 	name: 'with-you-blog-mongo-db',
 	create: function(callback) {
-		MongoClient.connect(options.database.url, {
+		MongoClient.connect(process.env.MONGOHQ_URL||options.database.url, {
 			server:{poolSize:options.database.server_option.poolSize,auto_reconnect:options.database.server_option.auto_reconnect},
 			db:{w:0}
 		}, function(err, db) {
