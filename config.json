@@ -2,8 +2,8 @@
 	"port" : "3000",
 	"database":
 	{
-		"url" : "mongodb://alex.mongohq.com:10003/with_you_blog_thesadboy",
-		"port":"10003",
+		"url" : "mongodb://nick:nickzhang@widmore.mongohq.com:10000/with-you-blog",
+		"port":"10000",
 		"db" : "with-you-blog",
 		"cookieSecret" : "with-you-blog",
 		"server_option":
