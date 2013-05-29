@@ -2,7 +2,6 @@ var express = require('express')
 	, routes = require('./routes/routes.js')
 	, http = require('http')
 	, path = require('path')
-	, MongoStore = require("connect-mongo")(express)
 	, fs = require("fs")
 	, argv = require("optimist").default("config",process.cwd()+"/config.json").argv
 	, cache = require("memory-cache");
@@ -15,7 +14,7 @@ try{
 	throw new Error("could not read config " + argv.config + "internal error: " + e.toString());
 }
 // all environments
-app.set('port', process.env.VCAP_APP_PORT ||  options.port || 3000);
+app.set('port', process.env.PORT ||  options.port || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.set('options',options);
@@ -26,11 +25,9 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.cookieParser());
 app.use(express.session({
-	secret : options.database.cookieSecret,
-	store : new MongoStore({
-		db : options.database.db
+	secret : options.database.cookieSecret
 	})
-}));
+);
 app.use(function(req,res,next){
 	res.locals.user = req.session.user || null;
 	next();

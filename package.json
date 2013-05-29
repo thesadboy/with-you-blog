@@ -9,10 +9,13 @@
     "express": "3.2.0",
     "jade": "*",
     "mongodb":"*",
-    "connect-mongo":"*",
     "optimist":"*",
     "node-markdown":"*",
     "memory-cache":"*",
     "generic-pool":"*"
+  },
+  "engines": {
+    "node": "0.8.19",
+    "npm": "1.2.21"
   }
 }
