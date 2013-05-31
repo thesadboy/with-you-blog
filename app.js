@@ -3,6 +3,7 @@ var express = require('express')
 	, http = require('http')
 	, path = require('path')
 	, fs = require("fs")
+	,MongoStore = require("connect-mongo")(express)
 	, argv = require("optimist").default("config",process.cwd()+"/config.json").argv
 	, cache = require("memory-cache");
 
@@ -25,7 +26,11 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.cookieParser());
 app.use(express.session({
-	secret : options.database.cookieSecret
+	secret : options.database.cookieSecret,
+	cookies:{ maxAge: 24* 60 * 60 * 1000 },
+	store : new MongoStore({
+			url : options.database.url
+		})
 	})
 );
 app.use(function(req,res,next){
