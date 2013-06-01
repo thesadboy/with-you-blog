@@ -12,7 +12,11 @@ block content
 						span  发表于
 						span.date #{dateTimeFormat(post.createTime)}
 				div.entry-content
-					div #{post.description}
+					-if(post.type =='blog')
+						div #{post.description}
+					-else
+						div.index-photo(data-pid=post._id)
+							img(src=post.imgUrl)
 				footer.entry-meta
 					span.tags 标签：
 						if(post.tags)
@@ -22,4 +26,3 @@ block content
 						span(class=getrandomBadgeStyle()) #{post.reply}
 					span  | 浏览：
 						span #{post.hits}
-

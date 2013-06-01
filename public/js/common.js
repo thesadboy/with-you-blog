@@ -232,6 +232,68 @@ $(document).ready(function() {
 			}
 		});
 	});
+	//发表图片
+	$('#new-photo').click(function(){
+		var aHtml = [];
+		aHtml.push('<form class="row-fluid" style="margin-bottom:0px;">');
+		aHtml.push('<div class="control-group">');
+		aHtml.push('<label class="control-label">标题</label>');
+		aHtml.push('<div class="controls"><input type="text" class="span12" id="new-photo-title" placeholder="请输入标题"></div>');
+		aHtml.push('</div>');
+		aHtml.push('<div class="control-group">');
+		aHtml.push('<label class="control-label">图片地址</label>');
+		aHtml.push('<div class="controls"><input type="url" class="span12" id="new-photo-url" placeholder="请输入图片地址"></div>');
+		aHtml.push('</div>');
+		aHtml.push('<div class="control-group">');
+		aHtml.push('<label class="control-label">描述</label>');
+		aHtml.push('<div class="controls"><textarea class="span12" style="resize: none;" id="new-photo-description" placeholder="请输入图片描述，为MarkDown语法" rows="5"></textarea></div>');
+		aHtml.push('</div>');
+		aHtml.push('<div class="control-group error" style="margin-bottom:0px;">');
+		aHtml.push('<div class="controls"><p class="help-block" id="new-photo-msg"></p></div>');
+		aHtml.push('</div>');
+		aHtml.push('</form>');
+		_modal('新增图片',aHtml.join(''),function(close,btn){
+			btn.attr('data-loading-text','发表中…')
+			btn.button('loading');
+			var postInfo = {
+				type: "image",
+				postTitle: $("#new-photo-title").val(),
+				imgUrl:$("#new-photo-url").val(),
+				content: $("#new-photo-description").val()
+			}
+			$.post("/post", {
+				postInfo: postInfo
+			}, function(data, status) {
+				if (status == "success") {
+					if (data.errorCode == 0) {
+						$("#new-photo-msg").parent().parent().removeClass("error").addClass("success");
+						$("#new-photo-msg").html(data.errorMsg);
+						setTimeout(function() {
+							window.location.href = "/photos";
+						}, 1000);
+					} else {
+						$("#new-photo-msg").html(data.errorMsg);
+						setTimeout(function() {
+							$("#new-photo-msg").html("");
+						}, 1500);
+						btn.button("reset");
+					}
+				}
+			});
+		});
+	});
+	//绑定图片的显示事件
+	$(".photos .photo , .index-photo").imageshow({isEscKey  : true, onShow : function(pid, desbox, replybox){
+		$.get('/photo/'+pid,function(data,status){
+			if(status == 'success')
+			{
+				if(data.errorCode == 0)
+				{
+					desbox.html(data.post.content);
+				}
+			}
+		});
+	}});
 	//发表回复
 	$("#new-comment-reply").click(function(e) {
 		var _this = this;
@@ -398,4 +460,87 @@ Date.prototype.format = function()
 	formated += ':';
 	formated += this.getSeconds() < 10 ? '0' + this.getSeconds() : this.getSeconds();
 	return formated;
+}
+
+//Utiles
+window._alert = function(sTitle,sContent,fn){
+	var aHtml = [];
+	aHtml.push('<div class="modal hide fade">');
+	aHtml.push('<div class="modal-header">');
+	aHtml.push('<h3>'+sTitle+'</h3>');
+	aHtml.push('</div>');
+	aHtml.push('<div class="modal-body">');
+	aHtml.push(sContent);
+	aHtml.push('</div>');
+	aHtml.push('<div class="modal-footer">');
+	aHtml.push('<a href="javascript:" class="btn btn-primary btn-ok">确定</a>');
+	aHtml.push('</div></div>');
+	var ele = $(aHtml.join(''));
+	$(document.body).append(ele);
+	ele.modal({
+		backdrop:'static'
+	});
+	ele.find('a.btn-ok').click(function(e){
+		ele.modal('hide');
+		ele.remove();
+		fn();
+	});
+}
+
+window._confirm = function(sTitle,sContent,fn){
+	var aHtml = [];
+	aHtml.push('<div class="modal hide fade">');
+	aHtml.push('<div class="modal-header">');
+	aHtml.push('<h3>'+sTitle+'</h3>');
+	aHtml.push('</div>');
+	aHtml.push('<div class="modal-body">');
+	aHtml.push(sContent);
+	aHtml.push('</div>');
+	aHtml.push('<div class="modal-footer">');
+	aHtml.push('<a href="javascript:" class="btn btn-cancel">取消</a>');
+	aHtml.push('<a href="javascript:" class="btn btn-primary btn-confirm">确定</a>');
+	aHtml.push('</div></div>');
+	var ele = $(aHtml.join(''));
+	$(document.body).append(ele);
+	ele.modal({
+		backdrop : 'static'
+	});
+	ele.find('a.btn-cancel').click(function(e){
+		ele.modal('hide');
+		ele.remove();
+	});
+	ele.find('a.btn-confirm').click(function(e){
+		ele.modal('hide');
+		ele.remove();
+		fn();
+	});
+}
+window._modal = function(sTitle,sContent,fn){
+	var aHtml = [];
+	aHtml.push('<div class="modal hide fade">');
+	aHtml.push('<div class="modal-header">');
+	aHtml.push('<h3>'+sTitle+'</h3>');
+	aHtml.push('</div>');
+	aHtml.push('<div class="modal-body">');
+	aHtml.push(sContent);
+	aHtml.push('</div>');
+	aHtml.push('<div class="modal-footer">');
+	aHtml.push('<a href="javascript:" class="btn btn-cancel">取消</a>');
+	aHtml.push('<button class="btn btn-primary btn-confirm" data-loading-text="Loading...">确定</button>');
+	aHtml.push('</div></div>');
+	var ele = $(aHtml.join(''));
+	$(document.body).append(ele);
+	ele.modal({
+		backdrop : 'static'
+	});
+	ele.find('a.btn-cancel').click(function(e){
+		ele.modal('hide');
+		ele.remove();
+	});
+	ele.find('button.btn-confirm').click(function(e){
+		fn(function(){
+			ele.modal('hide');
+			ele.remove();
+		},$(this));
+	});
 }

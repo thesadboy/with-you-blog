@@ -27,10 +27,11 @@ app.use(express.methodOverride());
 app.use(express.cookieParser());
 app.use(express.session({
 	secret : options.database.cookieSecret,
-	cookies:{ maxAge: 24* 60 * 60 * 1000 },
-	store : new MongoStore({
-			url : options.database.url
-		})
+	cookies:{ maxAge: 24* 60 * 60 * 1000 }
+	// cookies:{ maxAge: 24* 60 * 60 * 1000 },
+	// store : new MongoStore({
+	// 		url : options.database.url
+	// 	})
 	})
 );
 app.use(function(req,res,next){

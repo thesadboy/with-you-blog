@@ -2,6 +2,7 @@ var userRoute = require('./routes_user')
 	,settingRoute = require("./routes_setting")
 	,postRoute = require("./routes_post")
 	,replyRoute = require("./routes_reply")
+	,photoRoute = require('./routes_photo')
 	,Post = require("../db/Post")
 	,Tag = require("../db/Tag");
 function route(app){
@@ -81,9 +82,26 @@ function route(app){
 			});
 	});
 	app.get("/photos",function(req,res,next){
-		res.render("photos",{
-			title : "SWEET MOMENT",
-			nav : "photos"
+		var page = req.query.page || 1;
+		var pageSize = 20;
+		var pages = 0;
+		var posts = [];
+		Post.query({type:'image'},(page -1) * pageSize, pageSize, {updateTime:-1}, function(err, data, count){
+			if(!err)
+			{
+				posts = data;
+				var extCount = count % pageSize;
+				pages = (count - extCount) / pageSize;
+				pages = extCount  == 0 ? pages : pages + 1;
+				pages = pages == 0 ? pages + 1 : pages;
+			}
+			res.render("photos",{
+				title : "SWEET MOMENT",
+				nav : "photos",
+				pages : pages,
+				page : page,
+				posts : posts
+			});
 		});
 	});
 	app.get("/blogs",function(req,res,next){
@@ -91,7 +109,7 @@ function route(app){
 		var pageSize = 20;
 		var pages = 0;
 		var posts = [];
-		Post.query({},(page -1) * pageSize, pageSize, {updateTime:-1}, function(err, data, count){
+		Post.query({type:'blog'},(page -1) * pageSize, pageSize, {updateTime:-1}, function(err, data, count){
 			if(!err)
 			{
 				posts = data;
@@ -126,6 +144,7 @@ function route(app){
 	});
 	userRoute(app);
 	settingRoute(app);
+	photoRoute(app);
 	postRoute(app);
 	replyRoute(app);
 };

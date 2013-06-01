@@ -51,41 +51,43 @@ html
 		div#foot
 			div.container
 				include foot
-		//login modal
-		div#sign-in-modal.modal.hide.fade
-			div.modal-header
-				h3 登录
-			div.modal-body
-				div.row-fluid
-					div.span10.offset1
-						form
-							div.control-group
-								label.control-label(for="input-username") 用户名
-								div.controls
-									input.span12(type="text",id="input-username",placeholder="用户名")
-							div.control-group
-								label.control-label(for="input-password") 密码
-								div.controls
-									input.span12(type="password",id="input-password",placeholder="密码")
-							div.control-group
-								div.row-fluid
-									input.pull-left(type="checkbox",id="input-remember")
-									label.pull-left(for="input-remember") &nbsp;记住登录
-							div.control-group 
-								div 还没有账号&nbsp;
-									a(href="/signup") 注册
-							div.control-group.error
-								div.controls
-									p#sign-in-error.help-block 
-							button.hide(id="sign-in-form-reset",type="reset") Reset
-			div.modal-footer
-				a#sign-in-close.btn 取消
-				a#sign-in.btn.btn-primary(data-loading-text="登录中...") 登录
-		//logout modal
-		div#sign-out-modal.modal.hide.fade
-			div.modal-header
-				h3 退出
-			div.modal-body 确定要退出么？
-			div.modal-footer
-				a#sign-out-close.btn 取消
-				a#sign-out.btn.btn-primary(data-loading-text="登出中...") 退出
+		if(!user)
+			//login modal
+			div#sign-in-modal.modal.hide.fade
+				div.modal-header
+					h3 登录
+				div.modal-body
+					div.row-fluid
+						div.span10.offset1
+							form
+								div.control-group
+									label.control-label(for="input-username") 用户名
+									div.controls
+										input.span12(type="text",id="input-username",placeholder="用户名")
+								div.control-group
+									label.control-label(for="input-password") 密码
+									div.controls
+										input.span12(type="password",id="input-password",placeholder="密码")
+								div.control-group
+									div.row-fluid
+										input.pull-left(type="checkbox",id="input-remember")
+										label.pull-left(for="input-remember") &nbsp;记住登录
+								div.control-group 
+									div 还没有账号&nbsp;
+										a(href="/signup") 注册
+								div.control-group.error
+									div.controls
+										p#sign-in-error.help-block 
+								button.hide(id="sign-in-form-reset",type="reset") Reset
+				div.modal-footer
+					a#sign-in-close.btn 取消
+					a#sign-in.btn.btn-primary(data-loading-text="登录中...") 登录
+		else
+			//logout modal
+			div#sign-out-modal.modal.hide.fade
+				div.modal-header
+					h3 退出
+				div.modal-body 确定要退出么？
+				div.modal-footer
+					a#sign-out-close.btn 取消
+					a#sign-out.btn.btn-primary(data-loading-text="登出中...") 退出
