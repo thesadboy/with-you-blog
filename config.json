@@ -3,7 +3,7 @@
 	"database":
 	{
 		"url" : "mongodb://nick:nickzhang@widmore.mongohq.com:10000/with-you-blog",
-		"cookieSecret" : "with-you-blog",
+		"cookieSecret" : "with-you-blog-cookie",
 		"server_option":
 		{
 			"auto_reconnect":true,

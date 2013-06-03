@@ -20,7 +20,7 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.set('options',options);
 app.set('cache',cache);
-app.use(express.favicon());
+app.use(express.favicon(__dirname + '/public/favicon.ico'));
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
