@@ -4,90 +4,91 @@ html
 		title= title
 		link(rel='stylesheet', href='/css/bootstrap.min.css')
 		link(rel='stylesheet', href='/css/bootstrap-responsive.min.css')
-		link(rel='stylesheet', href='/css/jquery.plugin.imageshow.css')
+		link(rel='stylesheet', href='/css/jquery.plugin.image.css')
 		link(rel='stylesheet', href='/css/common.css')
 		link(rel='stylesheet', href='/lib/code-prettify/prettify.css')
 		script(src="/lib/code-prettify/prettify.js",type="text/javascript")
 		script(src="/js/jquery-1.9.1.min.js",type="text/javascript")
 		script(src="/js/bootstrap.min.js",type="text/javascript")
-		script(src="/js/jquery.plugin.imageshow.js",type="text/javascript")
+		script(src="/js/jquery.plugin.image.js",type="text/javascript")
 		script(src="/js/jquery.plugin.pagination.js",type="text/javascript")
 		script(src="/js/common.js",type="text/javascript")
 		include scripts
 	body
-		div#header
-			div.container
-				h1.head With You
-				h3.subhead Everytime with you
-		div#nav-bar
-			div.navbar-inner
+		div.image-box-body-root-container
+			div#header
 				div.container
-					ul.nav
-						li.left(class="#{nav =='home' || !nav ? 'active' : ''}")
-							a(href="/") 首页
-						li.left(class="#{nav =='photos'? 'active' : ''}")
-							a(href="/photos") 图库
-						li.left(class="#{nav =='blogs'? 'active' : ''}")
-							a(href="/blogs") 博文
-						li.left(class="#{nav =='about'? 'active' : ''}")
-							a(href="/about") 关于
-						-if(!user)
-							li.right
-								a(href="#sign-in-modal",data-toggle="modal",role="button") 登录
-						-else
-							li.right
-								a(href="#sign-out-modal",data-toggle="modal",role="button") 退出
-							li.right
-								a(href="/userinfo") #{user.userName}
-		div#content
-			div.container
-				div.row
-					div.span9
-						div.custom-container
-							block content
-					div.span3
-						div.custom-container
-							include right
-		div#foot
-			div.container
-				include foot
-		if(!user)
-			//login modal
-			div#sign-in-modal.modal.hide.fade
-				div.modal-header
-					h3 登录
-				div.modal-body
-					div.row-fluid
-						div.span10.offset1
-							form
-								div.control-group
-									label.control-label(for="input-username") 用户名
-									div.controls
-										input.span12(type="text",id="input-username",placeholder="用户名")
-								div.control-group
-									label.control-label(for="input-password") 密码
-									div.controls
-										input.span12(type="password",id="input-password",placeholder="密码")
-								div.control-group
-									div.row-fluid
-										input.pull-left(type="checkbox",id="input-remember")
-										label.pull-left(for="input-remember") &nbsp;记住登录
-								div.control-group 
-									div 还没有账号&nbsp;
-										a(href="/signup") 注册
-								div.control-group.error
-									div.controls
-										p#sign-in-error.help-block 
-								button.hide(id="sign-in-form-reset",type="reset") Reset
-				div.modal-footer
-					a#sign-in-close.btn 取消
-					a#sign-in.btn.btn-primary(data-loading-text="登录中...") 登录
-		else
-			//logout modal
-			div#sign-out-modal.modal.hide.fade
-				div.modal-header
-					h3 退出
-				div.modal-body 确定要退出么？
-				div.modal-footer
-					a#sign-out-close.btn 取消
-					a#sign-out.btn.btn-primary(data-loading-text="登出中...") 退出
+					h1.head With You
+					h3.subhead Everytime with you
+			div#nav-bar
+				div.navbar-inner
+					div.container
+						ul.nav
+							li.left(class="#{nav =='home' || !nav ? 'active' : ''}")
+								a(href="/") 首页
+							li.left(class="#{nav =='photos'? 'active' : ''}")
+								a(href="/photos") 图库
+							li.left(class="#{nav =='blogs'? 'active' : ''}")
+								a(href="/blogs") 博文
+							li.left(class="#{nav =='about'? 'active' : ''}")
+								a(href="/about") 关于
+							-if(!user)
+								li.right
+									a(href="#sign-in-modal",data-toggle="modal",role="button") 登录
+							-else
+								li.right
+									a(href="#sign-out-modal",data-toggle="modal",role="button") 退出
+								li.right
+									a(href="/userinfo") #{user.userName}
+			div#content
+				div.container
+					div.row
+						div.span9
+							div.custom-container
+								block content
+						div.span3
+							div.custom-container
+								include right
+			div#foot
+				div.container
+					include foot
+			if(!user)
+				//login modal
+				div#sign-in-modal.modal.hide.fade
+					div.modal-header
+						h3 登录
+					div.modal-body
+						div.row-fluid
+							div.span10.offset1
+								form
+									div.control-group
+										label.control-label(for="input-username") 用户名
+										div.controls
+											input.span12(type="text",id="input-username",placeholder="用户名")
+									div.control-group
+										label.control-label(for="input-password") 密码
+										div.controls
+											input.span12(type="password",id="input-password",placeholder="密码")
+									div.control-group
+										div.row-fluid
+											input.pull-left(type="checkbox",id="input-remember")
+											label.pull-left(for="input-remember") &nbsp;记住登录
+									div.control-group 
+										div 还没有账号&nbsp;
+											a(href="/signup") 注册
+									div.control-group.error
+										div.controls
+											p#sign-in-error.help-block 
+									button.hide(id="sign-in-form-reset",type="reset") Reset
+					div.modal-footer
+						a#sign-in-close.btn 取消
+						a#sign-in.btn.btn-primary(data-loading-text="登录中...") 登录
+			else
+				//logout modal
+				div#sign-out-modal.modal.hide.fade
+					div.modal-header
+						h3 退出
+					div.modal-body 确定要退出么？
+					div.modal-footer
+						a#sign-out-close.btn 取消
+						a#sign-out.btn.btn-primary(data-loading-text="登出中...") 退出

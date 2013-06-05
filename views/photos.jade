@@ -6,8 +6,8 @@ block content
 		legend
 	div.photos
 		-each post in posts
-			a(href="javascript:",data-pid=post._id).photo
+			a(href="javascript:").photo
 					div.photo-container
 						div.photo-img
-							img(src=post.imgUrl)
+							img(src=post.imgUrl,data-pid=post._id)
 						div.photo-title #{post.postTitle}

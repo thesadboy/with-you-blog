@@ -15,8 +15,8 @@ block content
 					-if(post.type =='blog')
 						div #{post.description}
 					-else
-						div.index-photo(data-pid=post._id)
-							img(src=post.imgUrl)
+						div.index-photo
+							img(src=post.imgUrl,data-pid=post._id)
 				footer.entry-meta
 					span.tags 标签：
 						if(post.tags)

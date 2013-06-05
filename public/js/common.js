@@ -283,8 +283,8 @@ $(document).ready(function() {
 		});
 	});
 	//绑定图片的显示事件
-	$(".photos .photo , .index-photo").imageshow({isEscKey  : true, onShow : function(pid, desbox, replybox){
-		$.get('/photo/'+pid,function(data,status){
+	$(".photos .photo , .index-photo").imageBox({isEscKey  : true, onShow : function(clickImg,desbox, replybox){
+		$.get('/photo/'+clickImg.attr("data-pid").replace(/"/g,''),function(data,status){
 			if(status == 'success')
 			{
 				if(data.errorCode == 0)

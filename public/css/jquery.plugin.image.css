@@ -1,0 +1,152 @@
+body{
+	padding: 0;
+	margin:0;
+}
+.image-box-body-root-container{
+	display: block;
+}
+.image-box-body-root-container-fixed{
+	position: fixed;
+	display: block;
+	width: 100%;
+}
+.image-box-backdrop{
+	display: none;
+	position: fixed;
+	z-index: 500;
+	top: 0;
+	right: 0;
+	left: 0;
+	bottom: 0;
+	background-color: #666;
+	background-color: rgba(0,0,0,0.8);
+}
+.image-box-container{
+	position: absolute;
+	display: inline-block;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 501;
+}
+.image-box-content{
+	position: relative;
+	display: block;
+	width: 100%;
+	height: 100%;
+	min-width: 1000px;
+	min-height: 500px;
+}
+.image-box-inner-content{
+	position: absolute;
+	top: 30px;
+	right: 30px;
+	bottom: 30px;
+	left: 30px;
+	background-color: #333;
+	background-color: rgba(0,0,0,0.9);
+}
+.image-box-inner-content-right{
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	width: 350px;
+	background-color: #fff;
+}
+.image-box-inner-content-right-comment{
+	position: absolute;
+	top: 20px;
+	left: 20px;
+	right: 20px;
+	bottom: 20px;
+	word-wrap: break-word;
+	overflow-y: auto;
+}
+.image-box-inner-content-left{
+	position: absolute;
+	vertical-align: middle;
+	text-align: center;
+	top: 0;
+	right: 350px;
+	left: 0;
+	bottom: 0;
+}
+.image-box-inner-content-left img{
+	max-height: 100%;
+	max-width: 100%;
+}
+.image-title-bar{
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	padding: 5px 0;
+	text-align: left;
+	color: #efefef;
+	overflow: hidden;
+	background-color: #000;
+	background-color: rgba(0,0,0,0.7);
+}
+.image-title-bar-inner{
+	display: block;
+	margin: 0 10px;
+	height: 30px;
+	line-height: 30px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow:ellipsis;
+}
+.image-title-bar-inner p{margin: 0;}
+.image-title-bar-inner:hover{
+	overflow: auto;
+	min-height: 30px;
+	height: auto;
+	max-height: 300px;
+	white-space: normal;
+}
+.image-box-inner-content-left > .image-options{
+	display: none;
+	cursor: pointer;
+}
+.image-page{
+	background: url(../img/jquery.plugin.image.png);
+	opacity: 0.6;
+	position: absolute;
+	top: 50%;
+	width: 27px;
+	height: 45px;
+	margin-top: -22px;
+}
+.image-box-prev{
+	background-position: 0 0;
+	background-repeat: no-repeat;
+	left: 10px;
+}
+.image-box-prev:hover{
+	opacity: 1;
+}
+.image-box-next{
+	background-position: -28px 0;
+	background-repeat: no-repeat;
+	right: 10px;
+}
+.image-box-next:hover{
+	opacity: 1;
+}
+.image-box-close{
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	height: 15px;
+	width: 15px;
+	font-size: 18px;
+	color: #666;
+	font-weight: bolder;
+	line-height: 12px;
+	z-index: 502;
+	cursor: pointer;
+}
