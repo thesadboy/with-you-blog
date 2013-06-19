@@ -15,7 +15,7 @@ try{
 	throw new Error("could not read config " + argv.config + "internal error: " + e.toString());
 }
 // all environments
-app.set('port', process.env.PORT ||  options.port || 80);
+app.set('port', process.env.PORT ||  options.port || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.set('options',options);
